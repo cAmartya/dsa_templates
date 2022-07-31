@@ -1,0 +1,85 @@
+class NumArray {
+private:
+    int seg[(int)1e+5];
+    int lazy[(int)1e+5];
+    int sz;
+public:
+    void build(vector<int>& nums, int idx, int l, int h)   {
+        if(l == h)  {
+            seg[idx] = nums[l];
+            return;
+        }
+        int m = l + ((h-l) >> 1);
+        build(nums, 2*idx +1, l, m);
+        build(nums, 2*idx +2, m+1, h);
+        seg[idx] = seg[2*idx +1] + seg[2*idx +2];
+    }
+    int query(int idx, int low, int high, int l, int r)    {
+        if(lazy[idx] != 0)  {
+            seg[idx] += (high-low+1)*lazy[idx];
+            if(low!=high)   {
+                lazy[2*idx +1] += lazy[idx];
+                lazy[2*idx +2] += lazy[idx];                
+            }
+            lazy[idx]=0;
+        }
+        if(high<l || low>r)    return 0;
+        if(l<=low && r>=high)  return seg[idx];
+        int m = low + ((high-low) >> 1);
+        int lt = query(2*idx +1, low, m, l, r);
+        int rt = query(2*idx +2, m+1, high, l, r);
+        
+        return lt+rt;        
+    }
+    void update(int idx, int l, int h, int p, int v)  {
+        if(l == h)  {
+            seg[idx] = v;
+            return;
+        }
+        int m = l + ((h-l) >> 1);
+        if(p<=m)
+            update(2*idx +1, l, m, p, v);
+        else
+            update(2*idx +2, m+1, h, p, v);
+        seg[idx] = seg[2*idx +1] + seg[2*idx +2];
+    }
+    void update(int idx, int low, int high, int l, int r, int v)  {
+        if(lazy[idx] != 0)  {
+            seg[idx] += (high-low+1)*lazy[idx];
+            if(low!=high)   {
+                lazy[2*idx +1] += lazy[idx];
+                lazy[2*idx +2] += lazy[idx];                
+            }
+            lazy[idx]=0;
+        }
+        if(high<l || low>r)    return;
+        if(l<=low && r>=high)  {
+            seg[idx] += (high-low+1)*v;
+            if(low!=high)   {
+                lazy[2*idx +1] += lazy[idx];
+                lazy[2*idx +2] += lazy[idx];                
+            }
+            return;
+        }
+        int m = low + ((high-low) >> 1);
+        update(2*idx +1, low, m, l, r, v);
+        update(2*idx +2, m+1, high, l, r, v);
+        seg[idx] = seg[2*idx +1] + seg[2*idx +2];
+    }
+    NumArray(vector<int>& nums) {
+        sz = nums.size();
+        build(nums, 0, 0, sz-1);
+        memset(lazy, 0, sizeof(lazy));
+    }
+    
+    void update(int index, int val) {
+        update(0, 0, sz-1, index, val);
+    }
+    void update(int l, int r, int val) {
+        update(0, 0, sz-1, l, r, val);
+    }
+    
+    int sumRange(int left, int right) {
+        return query(0, 0, sz-1, left, right);
+    }
+};

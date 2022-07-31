@@ -1,0 +1,47 @@
+#include <iostream>
+using namespace std;
+
+class node
+{
+    public : 
+    int data;
+    node* next;
+    
+    node(int v)
+    {
+        this -> data=v;
+        this -> next=NULL;
+    }
+};
+
+node* insertnode(node* head, int data)
+{
+    node* temp = new node(data);
+    head -> next = temp;
+    return temp;
+    
+}
+
+void xprint(node* &head)
+{
+    
+    while(head != nullptr )
+    {
+        cout << head -> data << endl;
+        head = head -> next;
+    }
+}
+
+int main() 
+{
+	node* head = new node(0);
+	node* ptr;
+	ptr = insertnode(head,1);
+	ptr = insertnode(ptr,2);
+	ptr = insertnode(ptr,3);
+	
+	
+	xprint(head);
+	
+	return 0;
+}

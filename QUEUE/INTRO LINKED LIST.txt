@@ -1,0 +1,82 @@
+#include <iostream>
+using namespace std;
+
+
+class node
+{
+    public : 
+    int data;
+    node* next;
+    
+    node(int v)
+    {
+        this -> data=v;
+        this -> next=nullptr;
+    }
+};
+class queue
+{
+    public : 
+    node* front;
+    node* back;
+    queue()
+    {
+        front = nullptr;
+        back = nullptr;
+    }
+    void enqueue(int x)
+    {
+        node* n = new node(x);
+        if(front == nullptr)
+        {
+            front = n;
+            back = n;
+        }
+        
+        back -> next = n;
+        back = n;
+        return;
+    }
+    void dequeue()
+    {
+        if(front == nullptr)
+        {
+            cout << "queue underflow" << endl;
+            return;
+        }
+        node* td = front;
+        front = front -> next;
+        delete td;
+        return;
+    }
+    int peek()
+    {
+        if(front == nullptr)
+        return -1;
+        
+        return front -> data;;
+    }
+    bool empty()
+    {
+        return front == nullptr;
+    }
+
+};
+
+int main()
+{
+    queue st;
+    st.enqueue(0);
+    st.enqueue(1);
+    st.enqueue(2);
+    st.enqueue(3);
+    cout<<st.peek();
+    st.dequeue();
+    cout<<st.peek();
+    st.dequeue();
+    cout<<st.peek();
+    st.dequeue();
+    
+	
+	return 0;
+}

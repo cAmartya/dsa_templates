@@ -1,0 +1,20 @@
+    void dfs(Node* node, Node* curr, vector<Node*>& vis)  {
+        vis[curr-> val] = curr;
+        for(auto it: node-> neighbors) {
+            if(vis[it-> val] == NULL)   {
+                Node* newNode = new Node(node-> val);
+                (curr-> neighbors).push_back(newNode);
+                dfs(node, newNode, vis);
+            }else   {
+                (curr-> neighbors).push_back(vis[it-> val]);
+            }
+        }
+    }
+    Node* cloneGraph(Node* node) {
+        if(!node)   return NULL;
+        
+        vector<Node*> vis(100+1, NULL);
+        Node* root = new Node(node-> val);
+        dfs(node, root, vis);
+        return root;
+    }

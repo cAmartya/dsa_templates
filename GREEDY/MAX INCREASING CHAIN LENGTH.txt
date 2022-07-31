@@ -1,0 +1,18 @@
+    int maxChainLen(struct val p[],int n){
+        //Your code here
+        sort(p, p+n, [](struct val a, struct val b) {
+            return a.second < b.second;
+        });
+        
+        int ans=1;
+        int i=0, j=1;
+        while(j<n)  {
+            if(p[i].second < p[j].first)    {
+                ++ans;
+                i = j;
+            }
+            ++j;
+        }
+        
+        return ans;
+    }

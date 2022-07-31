@@ -1,0 +1,91 @@
+//needs correction
+
+#include <iostream>
+using namespace std;
+
+bool safe(int **a, int x, int y, int n, int k)
+{
+    int xlb = x/3, ylb = y/3;
+    xlb *= 3; ylb *= 3;
+    
+    for(int i=xlb;i<=xlb+2;i++)
+        for(int j=ylb;j<=ylb+2;j++)
+            if(a[i][j] == k)
+                return false;
+    
+	for(int i=0;i<n;i++)
+		if(a[i][y]==k)
+			return false;
+	for(int i=0;i<n;i++)
+		if(a[x][i]==k)
+			return false;
+	
+	return true;
+}
+bool xss(int **a, int x, int n)
+{
+	if(x>=n)
+	{
+		return true;
+	}
+	for(int i=0;i<n;i++)
+	{
+	    if(a[x][i] > 0){
+	        if(xss(a,x+1,n))
+			    return true;}
+		else
+		{
+		
+	    for(int k=1;k<=n;k++)
+	    {
+	        if(safe(a, x, i, n, k))
+    		{	
+	    		a[x][i]=k;
+		    	if(xss(a,x+1,n))
+			    	return true;
+			    a[x][i]=0;
+    		}
+    	}}
+	}
+	
+	return false;
+}
+
+void print(int** a, int n)
+{
+    for (int row = 0; row < n; row++)
+    {
+        for (int col = 0; col < n; col++)
+            cout << a[row][col] << " ";
+        cout << endl;
+    }
+}	
+
+int main() 
+{
+	int n = 9;
+	int** a = new int* [n];
+	for(int i=0;i<n;i++)
+	{
+	    a[i] = new int[n];
+	    for(int j=0;j<n;j++)
+	    cin >> a[i][j];
+	}
+	
+	if(xss(a, 0, n))
+	    print(a, n);
+	else
+	    cout << "No solution exists" << endl;
+	return 0;
+}
+
+INPUT
+3 0 6 5 0 8 4 0 0
+5 2 0 0 0 0 0 0 0
+0 8 7 0 0 0 0 3 1
+0 0 3 0 1 0 0 8 0
+9 0 0 8 6 3 0 0 5
+0 5 0 0 9 0 6 0 0
+1 3 0 0 0 0 2 5 0
+0 0 0 0 0 0 0 7 4
+0 0 5 2 0 6 3 0 0

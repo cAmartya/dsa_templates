@@ -1,0 +1,58 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class node
+{
+    public : 
+    int data;
+    node* left;
+    node* right;
+    
+    node(int v)
+    {
+        this -> data=v;
+        this -> left=nullptr;
+        this -> right=nullptr;
+    }
+};
+int caldia(node* t, int* h)
+{
+    if(t == nullptr)
+    {
+        *h = 0;
+        return 0;
+    }
+    
+    int lh=0, rh=0;
+    int ld = caldia(t -> left, &lh);
+    int rd = caldia(t -> right, &rh);
+    
+    int cd = lh + rh + 1;
+    *h = max(lh, rh) + 1;
+    
+    return max(cd, max(ld, rd));
+}
+
+int main() {
+    
+    node* root = new node(8);
+    root -> left = new node(3);
+    root -> right = new node(12);
+    root -> left -> right = new node(6);
+    root -> left -> left = new node(1);
+    root -> left -> right -> left = new node(4);
+    root -> left -> right -> right = new node(7);
+    root -> left -> left -> left = new node(0);
+    root -> left -> left -> right = new node(2);
+    root -> right -> left = new node(10);
+    root -> right -> left -> left = new node(9);
+    root -> right -> left -> right = new node(11);
+    root -> right -> right = new node(17);
+    root -> right -> right -> left = new node(15);
+    root -> right -> right -> right = new node(18);
+    
+    int h = 0;
+    cout << "DIAMETER : " << caldia(root, &h) << "\n" << "HEIGHT : " << h;
+    
+	return 0;
+}

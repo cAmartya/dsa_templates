@@ -1,0 +1,79 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define vi vector<int>
+#define rep(i, a, b) for(int i=a; i<b; i++)
+
+class fenwick
+{
+    int sz;
+    vi BIT;
+    
+    public :
+        fenwick(){}
+        fenwick(int n)
+        {
+            sz = n+1;
+            BIT.assign(sz, 0);
+        }
+        //adds val to pos-th indexed element
+        void update(int pos, int val)
+        {
+            while(pos < sz)
+            {
+                BIT[pos] += val;
+                pos += pos & (-pos);
+            }
+        }
+	//returns sum : a[1] + a[2] + ... + a[r]
+        int sum(int r)
+        {
+            int s=0;
+            while(r > 0)
+            {
+                s += BIT[r];
+                r -= r & (-r);
+            }
+            return s;
+        }
+    
+};
+
+int main() {
+	// your code goes here
+	
+	int n;
+	cin >> n;
+	
+	vi a(n+1, 0);
+	fenwick fen(n);
+	rep(i, 1, n+1)
+	{
+	    cin >> a[i];
+	    fen.update(i, a[i]);
+	}
+	
+	int q;
+	cin >> q;
+	while(q--)
+	{
+	    int t;
+	    cin >> t;
+	    
+	    if(t == 1)
+	    {
+	        int p, v;
+	        cin >> p >> v;
+	        fen.update(p, v);
+	    }
+	    else
+	    {
+	        int r;
+	        cin >> r;
+	        cout << fen.sum(r) << endl;
+	    }
+	}
+	
+	
+	return 0;
+}

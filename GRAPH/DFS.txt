@@ -1,0 +1,82 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define vi vector<int>
+#define pii pair<int, int>
+#define vii vector<pii>
+#define ff first
+#define ss second
+#define INF 0x3f3f3f3f
+#define rep(i, a, b) for(int i=a; i<b; i++)
+
+const int N = 1e+5 + 1; 
+vii a[N];
+int d[N];
+
+void xdfs(int root)
+{
+    
+    priority_queue<pii, vii, greater<pii>> pq;
+    pq.push({0, root});
+    d[root] = 0;
+    
+    while(!pq.empty())
+    {
+        pii t = pq.top();
+        pq.pop();
+        
+        for(auto i : a[t.ss])
+        {
+            if(d[t.ss] + i.ff < d[i.ss])
+	        {
+	            pq.push(i);
+	            d[i.ss] = d[t.ss] + i.ff;
+	        }
+        }
+    }
+    
+}
+
+int main() {
+	
+	
+	memset(d, INF, sizeof(d));
+	int n;
+	cin >> n;
+	int u, v, w;
+	
+	while(n--)
+	{
+	    cin >> u >> v >> w;
+	    a[u].push_back({w, v});
+	    a[v].push_back({w, u});
+	}
+	
+	int root = 0;
+	rep(i, 0, 11)
+	{
+	    if(a[i].size() > 0)
+	    {
+	        root = i;
+	        break;
+	    }
+	}
+	
+	xdfs(root);
+	
+	cout << d[3];
+	
+	/*
+	rep(i, 0, 10)
+	{
+	    cout << i << "  ";
+	    
+	    for(auto j : a[i])
+	    cout << j.ss << " ->" << j.ff << "  ";
+	    
+	    cout << endl;
+	}
+	*/
+	
+	return 0;
+}

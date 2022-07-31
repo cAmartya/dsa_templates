@@ -1,0 +1,99 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define vi vector<int>
+#define pii pair<int, int>
+#define vii vector<pii>
+#define ff first
+#define ss second
+#define INF 0x3f3f3f3f
+#define rep(i, a, b) for(int i=a; i<b; i++)
+
+int A, B, C;
+const int N = 1e+5 + 1; 
+vi a[N];
+int d[N];
+
+int id(int x, int y, int z)
+{
+    int temp = (B+1)*(C+1)*x + (C+1)*y + z;
+    return temp;
+}
+
+void gen(int x, int y, int z)
+{
+    int u = id(x, y, z);
+    
+    int d1 = id(0, y, z);
+    int d2 = id(x, 0, z);
+    int d3 = id(0, y, 0);
+    int f1 = id(A, y, z);
+    int f2 = id(x, B, z);
+    int f3 = id(A, y, C);
+    int t1 = (x >= (B-y)) ? id(x-B+y, B, z) : id(0, x+y, z);
+    int t2 = (y >= (A-x)) ? id(A, y-B+x, z) : id(x+y, 0, z);
+    int t3 = (x >= (C-z)) ? id(x-C+z, y, C) : id(0, y, x+z);
+    int t4 = (z >= (A-x)) ? id(A, y, z-C+x) : id(x+z, y, 0);
+    int t5 = (y >= (C-z)) ? id(x, y-C+z, C) : id(x, 0, y+z);
+    int t6 = (z >= (B-y)) ? id(x, B, z-C+y) : id(x, y+z, 0);
+    
+    a[u].push_back(d1);
+    a[u].push_back(d2);
+    a[u].push_back(d3);
+    
+    a[u].push_back(f1);
+    a[u].push_back(f2);
+    a[u].push_back(f3);
+    
+    a[u].push_back(t1);
+    a[u].push_back(t2);
+    a[u].push_back(t3);
+    a[u].push_back(t4);
+    a[u].push_back(t5);
+    a[u].push_back(t6);
+    
+}
+void xbfs(int root)
+{
+    queue<int> q;
+    
+    q.push(root);
+	d[root] += 1;
+	
+	while(!q.empty())
+	{
+	    int t = q.front();
+	    q.pop();
+        //cout << t << "\t";
+    
+        for(auto i : a[t])
+	    {
+	        if(d[i] == -1)
+	        {
+	            q.push(i);
+	            d[i] = d[t] + 1;
+	        }
+	    }
+	}
+}
+
+int main() {
+    
+    int a, b, c, t;
+    cin >> a >> b >> c >> t;
+    A=a;B=b;C=c;
+    
+    rep(i, 0, a+1)
+    {
+        rep(j, 0, b+1)
+        {
+            rep(k, 0, c+1)
+            gen(i, j, k);
+        }
+    }
+    memset(d, -1, sizeof(d));
+    xbfs(0);
+    int ans = min(d[id(t, 0, 0)], min(d[id(0, t, 0)], d[id(0, 0, t)]));
+    cout << ans << endl;
+	return 0;
+}

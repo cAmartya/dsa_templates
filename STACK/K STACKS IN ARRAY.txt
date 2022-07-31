@@ -1,0 +1,62 @@
+class NStack
+{
+public:
+    // Initialize your data structure.
+    vector<int> arr;    
+    vector<int> top;
+    vector<int> next;
+    int free;
+    int n, sz;
+    NStack(int N, int S)
+    {
+        // Write your code here.
+        int n=N, sz=S;
+        while(N--)    {
+            top.push_back(-1);
+        }
+        for(int i=0; i<sz-1; i++)    {
+            next.push_back(i+1);
+            arr.push_back(0);
+        }
+        next.push_back(-1);
+        arr.push_back(0);
+        free = 0;
+    }
+
+    // Pushes 'X' into the Mth stack. Returns true if it gets pushed into the stack, and false otherwise.
+    bool push(int x, int m)
+    {
+        // Write your code here.
+        if(free == -1)
+            return false;
+        
+        int idx = free;       
+        arr[idx] = x;        
+        free = next[idx];
+        next[idx] = top[m-1]; 
+        top[m-1] = idx;
+        
+             
+//         arr[free] = x;        
+//         next[free] = top[m-1]; 
+//         top[m-1] = free;
+//         free = next[free];
+        
+        return true;
+    }
+
+    // Pops top element from Mth Stack. Returns -1 if the stack is empty, otherwise returns the popped element.
+    int pop(int m)
+    {
+        // Write your code here.
+        if(top[m-1] == -1)
+            return -1;
+        
+        int idx = top[m-1];
+        top[m-1] = next[idx];
+        next[idx] = free;
+        free = idx;
+        
+        return arr[idx];
+    }
+};

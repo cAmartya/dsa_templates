@@ -1,0 +1,58 @@
+#include <iostream>
+using namespace std;
+
+bool isfeasible(int* a, int n, int k, int res)
+{
+    int s=0,st=0;
+    
+    for(int i=0;i<n;i++)
+    {
+        //s+=a[i];
+        if(s+a[i] > res)
+        {
+            st++;
+            s=a[i];
+        }
+        else
+        s += a[i];
+    }
+    
+    return st <= k;
+}
+
+int minofmax(int* a, int n, int k)
+{
+    int ub=0,lb=a[0];
+    for(int i=0; i<n;i++)
+    {
+        ub += a[i];
+        if(a[i] > lb)
+        lb=a[i];
+    }
+    
+    int m, res=0;
+    while(lb <= ub)
+    {
+        m = (lb+ub) / 2;
+        if(isfeasible(a, n, k, m))
+        {
+            res=m;
+            ub = m-1;
+        }
+        else 
+        lb = m+1;
+    }
+    
+    return res;
+}
+int main() {
+	// your code goes here
+	int n, k;
+	cin >> n >> k;
+	int* a = new int[n];
+	for(int i=0;i<n;i++)
+	cin >> a[i];
+	
+	cout << minofmax(a, n, k);
+	return 0;
+}

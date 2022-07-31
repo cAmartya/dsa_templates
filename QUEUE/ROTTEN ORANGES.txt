@@ -1,0 +1,45 @@
+    vector<pair<int, int>> moves = {{0,1}, {1,0}, {0,-1}, {-1,0}};
+    bool isVal(int x, int y, int r, int c)    {
+        return x>=0 && x<r && y>=0 && y<c;
+    }
+    int orangesRotting(vector<vector<int>>& grid) {
+        // Code here
+        queue<pair<int, int>> q;
+	    int r = grid.size();
+	    int c = grid[0].size();
+	    
+	    int tot=0;
+	    for(int i=0; i<r; i++)  {
+	        for(int j=0; j<c; j++)  {
+	            if(grid[i][j] == 2) {
+	                q.push({i, j});
+	            }
+	            if(grid[i][j] != 0) {
+	                ++tot;
+	            }
+	        }
+	    }
+	    int t = 0, cnt=0;
+	    while(!q.empty())   {
+	        int k = q.size();
+	        cnt += k;
+	       while(k--)   {
+    	        int par_x = q.front().first;
+    	        int par_y = q.front().second;
+    	        q.pop();
+    	        for(auto move: moves)   {
+    	            int child_x = par_x + move.first;
+    	            int child_y = par_y + move.second;
+    	            if(!isVal(child_x, child_y, r, c))  continue;
+    	            
+    	            if(grid[child_x][child_y] != 1) continue;
+    	            
+    	            q.push({child_x, child_y});
+    	            grid[child_x][child_y] = 2;
+    	        }
+            }
+	        if(!q.empty())  ++t;
+	    }
+	    
+	    return (tot == cnt) ? t : -1;
+    }

@@ -1,0 +1,57 @@
+out1a	
+out1b	
+out1c	
+
+out2c	
+c
+out3c	
+out2b	
+out1c	b
+b
+out2c	b
+bc
+out3c	b
+out3b	
+out2a	
+out1b	a
+out1c	a
+a
+out2c	a
+ac
+out3c	a
+out2b	a
+out1c	ab
+ab
+out2c	ab
+abc
+out3c	ab
+out3b	a
+out3a	
+
+
+#include <iostream>
+using namespace std;
+
+void subs(string s, int c, int n, string a)
+{
+    if(c==n)
+    {
+        cout<<a<<endl;
+        return;
+        
+    }
+    
+    char ch=s[c];
+    cout<<"out1"<<ch<<"\t"<<a<<endl;
+    subs(s,c+1,n,a);
+    cout<<"out2"<<ch<<"\t"<<a<<endl;
+    subs(s,c+1,n,a+ch);
+    cout<<"out3"<<ch<<"\t"<<a<<endl;
+}
+
+int main() {
+	// your code goes here
+	string st="abc";
+	subs(st,0,3,"");
+	return 0;
+}

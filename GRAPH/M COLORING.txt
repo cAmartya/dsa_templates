@@ -1,0 +1,30 @@
+vector<int> adj[21];
+        for(int i=0; i<n; i++)  {
+            for(int j=0; j<n; j++)  {
+                if(graph[i][j]) {
+                    adj[i].push_back(j);
+                    adj[j].push_back(i);
+                }
+            }
+        }
+        
+        vector<int> color(n+1, -1);
+        int src = 0, min_color=0;
+        color[src]=0;
+        
+        for(int i=1; i<n; i++)  {
+            vector<bool> avail(n+1, 0);
+            for(auto it: adj[i])    {
+                if(color[it] != -1) {
+                    avail[color[it]] = 1;
+                }
+            }
+            int k=0;
+            for(k=0; k<n; k++)  {
+                if(avail[k] == 0)   break;
+            }
+            color[i] = k;
+            min_color = max(min_color, k+1);
+        }
+        cout << min_color << "|";
+        return min_color;

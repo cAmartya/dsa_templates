@@ -1,0 +1,26 @@
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        int k = 2;
+        
+        vector<int> curr(2*k+1, 0);
+        vector<int> after(2*k+1, 0);
+        
+        for(int idx=n-1; idx>=0; idx--)   {
+            for(int trans=2*k-1; trans>=0; trans--)    {
+                int take=0, notake=0;
+                bool buy = trans & 1; 
+                if(!buy) {
+                    take = -prices[idx] + after[trans+1];
+                    notake = after[trans];
+                }else   {
+                    take = prices[idx] + after[trans+1];
+                    notake = after[trans];
+                }
+                curr[trans] = max(take, notake);
+            }
+            
+            after = curr;
+        }
+        
+        return after[0];
+    }

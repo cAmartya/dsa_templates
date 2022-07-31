@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+using namespace std;
+int subarr(int* a, int n, int k)
+{
+    int i=0, j=0, l=0;
+    
+    while(j<n)
+    {
+        if(a[j] == 0)
+            --k;
+        while(k<0)
+        {
+            if(a[i] == 0)
+                ++k;
+            ++i;
+        }
+        l = max(l, j-i+1);
+        ++j;
+    }
+    return l;
+}
+
+int main() {
+
+
+	int n, k;
+	cin >> n >> k;
+	int* a;
+	a=new int[n];
+	
+	for(int i=0; i<n; i++)
+	cin >> a[i];
+	
+	cout << subarr(a, n, k);
+	return 0;
+}

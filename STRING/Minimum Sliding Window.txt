@@ -1,0 +1,65 @@
+//	Given two strings s and t of lengths m and n respectively, return the minimum window substring of s such that every character in t (including duplicates) is included in the window. If there is no such substring, return the empty string "".
+
+class Solution {
+public:
+    string minWindow(string s, string p) {
+        unordered_map<char, int> mp;
+        for(char ch: p) {
+            ++mp[ch];
+        }
+        int count = mp.size();
+        int n = s.length();
+        int i = 0, j = 0, startIndex = 0, len = INT_MAX;
+		
+		string result = "";
+		
+        while (j < n) {
+			char ch = s[j];
+			auto f = mp.find(ch);
+			if (f != mp.end()) {
+				f-> second--;
+				if (f-> second == 0) {
+					count--;
+				}
+			}
+			
+			if (count > 0)
+				j++;
+			else if (count == 0) {
+				if (j - i + 1 < len) {
+					len = j - i + 1;
+					startIndex = i;
+					result = s.substr(startIndex, len);
+				}
+				while (count == 0) {
+					char c = s[i];
+					auto f = mp.find(c);
+			        if (f != mp.end()) {
+						f-> second++;
+						
+						if (f-> second == 1) {
+							count++;
+							i++;
+						} else {
+							i++;
+							if (j - i + 1 < len) {
+								len = j - i + 1;
+								startIndex = i;
+								result = s.substr(startIndex, len);
+							}
+						}
+					} else {
+						i++;
+						if (j - i + 1 < len) {
+							len = j - i + 1;
+							startIndex = i;
+							result = s.substr(startIndex, len);
+						}
+					}
+				}
+				j++;
+			}
+		}
+		return (len == INT_MAX ? "" : result);
+    }
+};

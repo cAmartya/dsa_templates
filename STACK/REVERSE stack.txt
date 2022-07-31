@@ -1,0 +1,35 @@
+void insertAtBottom(stack &st, int e)
+{
+    if(st.empty())
+    {
+        st.push(e);
+        return;
+    }
+    
+    int t = st.Top();
+    st.pop();
+    insertAtBottom(st,e);
+    st.push(t);
+}
+void rev(stack &st)
+{
+    if(st.empty())
+    return;
+    
+    int e = st.Top();
+    st.pop();
+    rev(st);
+    
+    insertAtBottom(st,e);
+}
+
+void print(stack st)
+{
+    while(!st.empty())
+    {
+        cout << st.Top() << "\t";
+        st.pop();
+    }
+    cout << endl;
+    return;
+}

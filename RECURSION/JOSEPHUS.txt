@@ -1,0 +1,17 @@
+#include <iostream>
+using namespace std;
+
+int gun(int n, int k)
+{
+    if(n == 1)
+    return 0;
+    
+    int ans = (gun(n-1, k) + k) % n;
+    return ans;
+}
+int main() {
+	// your code goes here
+	
+	cout << gun(5, 3);
+	return 0;
+}

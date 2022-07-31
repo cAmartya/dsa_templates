@@ -1,0 +1,57 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define vi vector<int>
+#define pii pair<int, int>
+#define vii vector<pii>
+#define ff first
+#define ss second
+#define rep(i, a, b) for(int i=a; i<b; i++)
+
+static int dp[30+1][30+1];
+
+int solve(string a, string b, int m, int n)
+{
+    rep(i, 0, m+1)
+        dp[i][0] = 0;
+    rep(i, 0, n+1)
+        dp[0][i] = 0;
+    
+    rep(i, 1, m+1)
+    {
+        rep(j, 1, n+1)
+        {
+            if(a[i-1] == b[j-1])
+            {
+                dp[i][j] = dp[i-1][j-1] +1;
+            }
+            else
+            dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+        }
+    }
+    
+    return dp[m][n];   
+}
+
+
+int main() {
+    string a, b;
+	//cin >> a >> b;
+	getline(cin, a);
+	getline(cin, b);
+	//cout << a << "  " << b << endl;
+	int m= a.length();
+    int n= b.length();
+    
+	cout << solve(a, b, m, n);
+	cout << "\n\n\n";
+	
+	rep(i, 0, m+1)
+	{
+	    rep(j, 0, n+1)
+	        cout << dp[i][j] << "\t";
+	    cout <<endl;
+	}
+	
+	return 0;
+}

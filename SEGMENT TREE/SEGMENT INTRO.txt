@@ -1,0 +1,40 @@
+
+class segtree
+{
+    
+    int n;
+    vi segmin;
+    
+    public :
+        
+        void init(int N)
+        {
+            n = N;
+            
+            segmin.assign(2 * n, INT_MAX);
+        }
+        void build(vi& a)
+        {
+            for(int i=0; i<n; i++)
+                segmin[i+n] = a[i];
+		    for(int i=n-1; i>0; i--)
+		        segmin[i] = min(segmin[2*i], segmin[2*i+1]);
+        }
+        
+        //range : [l, r)
+        int xmin(int l, int r)
+        {
+            int res = INT_MAX;
+		    for(l += n, r += n; l < r; l /= 2, r /= 2)
+		    {
+			    if(l&1)
+			        res = min(res, segmin[l++]);
+			    if(r&1)
+			        res = min(res, segmin[--r]);
+		    }
+		    
+		    return res;
+        }
+        
+};
+

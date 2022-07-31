@@ -1,0 +1,38 @@
+    int len_pal(string s, int l, int r, int& start) {
+        
+        while(l>=0 && r<s.length())  {            
+            if(s[l] != s[r])    {
+                break;
+            }
+            
+            l--;
+            r++;            
+        }
+        start = l+1;
+        return r-l-1;
+    }
+    string longestPalindrome(string s) {
+        int n = s.length();
+        
+        int max_start = 0, max_len=1;
+        // odd
+        for(int m=0; m<n; m++)  {
+            int start=0;
+            int len = len_pal(s, m, m, start);
+            if(len > max_len)   {
+                max_start = start;
+                max_len = len;
+            }
+        }
+        // even
+        for(int m=0; m<n; m++)  {
+            int start=0;
+            int len = len_pal(s, m, m+1, start);
+            if(len > max_len)   {
+                max_start = start;
+                max_len = len;
+            }
+        }
+        
+        return s.substr(max_start, max_len);
+    }

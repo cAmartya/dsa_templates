@@ -1,0 +1,71 @@
+#include <iostream>
+using namespace std;
+
+#define n 20
+class queue
+{
+    public : 
+    int *arr;
+    int front;
+    int back;
+    queue()
+    {
+        arr = new int[n];
+        front = -1;
+        back = -1;
+    }
+    void enqueue(int x)
+    {
+        if(back == n-1)
+        {
+            cout << " queue overflow" << endl;
+            return;
+        }
+        if(front == -1)
+        ++front;
+        
+        back++;
+        arr[back] = x;
+        return;
+    }
+    
+    void dequeue()
+    {
+        if(back < front || front == -1)
+        {
+            cout << "queue underflow" << endl;
+            return;
+        }
+        ++front;
+    }
+    int peek()
+    {
+        if(back < front || front == -1)
+        return -1;
+        
+        return arr[front];
+    }
+    bool empty()
+    {
+        return back < front || front == -1;
+    }
+
+};
+
+int main()
+{
+    queue st;
+    st.enqueue(0);
+    st.enqueue(1);
+    st.enqueue(2);
+    st.enqueue(3);
+    cout<<st.peek();
+    st.dequeue();
+    cout<<st.peek();
+    st.dequeue();
+    cout<<st.peek();
+    st.dequeue();
+    
+	
+	return 0;
+}

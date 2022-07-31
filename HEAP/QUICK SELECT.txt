@@ -1,0 +1,38 @@
+    int partition (vector<int>& arr, int low, int high)
+    {
+        int i= low-1;
+        for(int j=low; j<high; j++)  {
+           if(arr[j] < arr[high])   {
+               ++i;
+            //   swap
+               int t = arr[j];
+               arr[j] = arr[i];
+               arr[i] = t;
+           }
+        }
+
+        ++i;
+        int t = arr[high];
+        arr[high] = arr[i];
+        arr[i] = t;
+
+        return i;
+    }
+    int findKthLargest(vector<int>& nums, int k) {
+        int low = 0;
+        int n = nums.size();
+        int high = n-1;
+        if(n == 1)
+            return nums[0];
+        while(low <= high)  {
+            
+            int pidx = partition(nums, low, high);
+            if(pidx == n-k) {
+                return nums[pidx];
+            }else if(pidx < n-k)    {
+                low = pidx+1;
+            }else   {
+                high = pidx-1;
+            }
+        }
+        

@@ -1,0 +1,91 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class node
+{
+    public : 
+    int data;
+    node* left;
+    node* right;
+    bool isThreaded;
+    
+    node(int v)
+    {
+        this -> data=v;
+        this -> left=NULL;
+        this -> right=NULL;
+        this -> isThreaded = 0;
+    }
+};
+
+node *leftMost(node *root)
+{
+    while (root != NULL && root->left != NULL)
+        root = root->left;
+    return root;
+}
+node *createThreaded(node *root)
+{
+    if (root == NULL)
+        return NULL;
+    if (root->left == NULL &&
+        root->right == NULL)
+        return root;
+ 
+    if (root->left != NULL)
+    {
+        node* l = createThreaded(root->left);
+ 
+        l->right = root;
+        l->isThreaded = true;
+    }
+ 
+    if (root->right == NULL)
+        return root;
+ 
+    return createThreaded(root->right);
+}
+void inOrder(node *root)
+{
+    if (root == NULL) return;
+ 
+    node *cur = leftMost(root);
+ 
+    while (cur != NULL)
+    {
+        cout << cur -> data << "\t";
+ 
+        if (cur -> isThreaded)
+            cur = cur -> right;
+ 
+        else 
+            cur = leftMost(cur -> right);
+    }
+}
+ 
+int main() {
+    
+    node* root = new node(8);
+    root -> left = new node(3);
+    root -> right = new node(12);
+    root -> left -> right = new node(6);
+    root -> left -> left = new node(1);
+    root -> left -> right -> left = new node(4);
+    root -> left -> right -> right = new node(7);
+    //root -> left -> left -> left = new node(0);
+    root -> left -> left -> right = new node(2);
+    root -> left -> left -> right -> left = new node(22);
+    root -> left -> left -> right -> left -> left = new node(24);
+    
+    root -> right -> left = new node(10);
+    root -> right -> left -> left = new node(9);
+    root -> right -> left -> right = new node(11);
+    root -> right -> right = new node(17);
+    root -> right -> right -> left = new node(15);
+    root -> right -> right -> right = new node(18);
+    
+    
+    createThreaded(root);
+    inOrder(root);
+	return 0;
+}

@@ -1,0 +1,71 @@
+#include <iostream>
+using namespace std;
+
+class node
+{
+    public : 
+    int data;
+    node* next;
+    
+    node(int v)
+    {
+        this -> data=v;
+        this -> next=nullptr;
+    }
+};
+
+node* rev(node* head, node* tail)
+{
+    node* ptr = head;
+    node* ptrprev = nullptr;
+    node* n;
+        
+    while( ptr != tail)
+    {
+        n = ptr -> next;
+        ptr -> next = ptrprev;
+        ptrprev = ptr;
+        ptr = n;
+    }
+    
+    return ptrprev;
+}
+node* input()
+{
+    
+    int n, d;
+    cin >> n;
+    cin >> d;
+    node* head = new node(d);
+    node* ptr = head;
+    for(int i=1;i<n;i++)
+    {
+        cin >> d;
+        node* temp = new node(d);
+        ptr -> next = temp;
+        ptr=temp;
+    }
+    return head;
+}
+
+void xprint(node* head)
+{
+    while(head != nullptr )
+    {
+        cout << head -> data << " -> ";
+        head = head -> next;
+    }
+    cout << "NULL" << endl;
+}
+
+int main() {
+	// your code goes here
+	node* head = input();
+	cout << "original : \n"; 
+	xprint(head);
+	head = rev(head, nullptr);
+	cout << "after reversal : \n";
+	xprint(head);
+	
+	return 0;
+}

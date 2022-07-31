@@ -1,0 +1,80 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define vi vector<int>
+#define pii pair<int, int>
+#define vii vector<pii>
+#define ff first
+#define ss second
+#define rep(i, a, b) for(int i=a; i<b; i++)
+
+const int N = 1e+5 + 1; 
+vi a[N];
+int d[N];
+
+int main() {
+	
+	memset(d, -1, sizeof(d));
+	int n;
+	cin >> n;
+	int u, v;
+	
+	while(n--)
+	{
+	    cin >> u >> v;
+	    a[u].push_back(v);
+	    a[v].push_back(u);
+	}
+	
+	int root = 0;
+	rep(i, 0, 11)
+	{
+	    if(a[i].size() > 0)
+	    {
+	        root = i;
+	        break;
+	    }
+	}
+	
+	
+	queue<int> q;
+	q.push(root);
+	q.push(-1);
+	d[root] += 1;
+	
+	while(!q.empty())
+	{
+	    int t = q.front();
+	    q.pop();
+	    if(t != -1)
+	    {
+	        cout << t << "\t";
+	    
+	        for(auto i : a[t])
+    	    {
+    	        if(d[i] == -1)
+    	        {
+    	            q.push(i);
+    	            d[i] = d[t] + 1;
+    	        }
+    	    }
+	    }
+	    if(t == -1 && !q.empty())
+	    {
+	        q.push(-1);
+	        cout << endl;
+	    }
+	    
+	}
+	
+/*	rep(i, 0, 11)
+	{
+	    for(auto j : a[i])
+	    cout << j << "\t";
+	    
+	    cout << endl;
+	}
+*/	
+	cout << endl << d[4] << "  ";
+	return 0;
+}

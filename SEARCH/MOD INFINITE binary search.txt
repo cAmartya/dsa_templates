@@ -1,0 +1,28 @@
+int modbs(int* a, int V)
+{
+    int lb=0, ub=2;
+    while(lb<=ub)
+    {
+        
+        if(a[ub] < V)
+        {
+            lb = ub;
+            ub = ub << 1;
+        }
+        else
+        break;
+    }
+    
+    while(lb<=ub)
+    {
+        int m = (lb+ub) / 2;
+        if(a[m] == V)
+        return m;
+        else if(a[m] > V)
+        ub=m-1;
+        else
+        lb=m+1;
+    }
+    
+    return -1;
+}

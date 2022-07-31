@@ -1,0 +1,35 @@
+	int count(int arr[], int n, int x) {
+	    // code here
+	    int lb = 0;
+        int ub = n-1;
+        
+        int min = n-1;
+        while(lb<=ub)   {
+            int m = lb + (ub-lb)/2;
+            if(arr[m] < x) {
+                lb=m+1;
+            }else if(arr[m] == x)   {
+                min = m;
+                ub=m-1;
+            }else   {
+                ub=m-1;
+            }
+        }
+        
+        lb = 0;
+        ub = n-1;
+        
+        int max = n;
+        while(lb<=ub)   {
+            int m = lb + (ub-lb)/2;
+            if(arr[m] < x) {
+                lb=m+1;
+            }else if(arr[m] == x)   {
+                max = m;
+                lb=m+1;
+            }else   {
+                ub=m-1;
+            }
+        }
+        return (max == n) ? 0 : (max-min+1);
+	}

@@ -1,0 +1,32 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+bool sumsub(int* a, int n, int k)
+{
+    unordered_set<int> s;
+    int sum=0;
+    for(int i=0;i<n;i++)
+    {
+        s.insert(sum);
+        sum += a[i];
+        if(s.find(sum - k) != s.end())
+        return true;
+    }
+    
+    return false;
+}
+
+int main() {
+	// your code goes here
+	int n, k;
+	cin >> n >> k;
+	int* a = new int[n];
+	for(int i=0;i<n;i++)
+	cin >> a[i];
+	
+	if(sumsub(a, n, k))
+	cout << "found";
+	else
+	cout << "not found";
+	return 0;
+}

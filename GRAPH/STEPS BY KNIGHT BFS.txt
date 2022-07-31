@@ -1,0 +1,30 @@
+	int minStepToReachTarget(vector<int>& s,vector<int>& e,int n)
+	{
+	    // Code here
+	    int mat[1000 +1][1000 +1] = {0};
+	    pair<int, int> start(s[0] -1, s[1] -1);
+	    pair<int, int> tar(e[0] -1, e[1] -1);
+	    if(s[0] == e[0] && s[1] == e[1])    return 0;
+	    
+	    queue<pair<int, int>> q;
+	    q.push(start);
+	    
+	    while(!q.empty())   {
+	        pair<int, int> curr = q.front();
+	        q.pop();
+	        for(auto it: moves) {
+	            int x = curr.first + it[0];
+	            int y = curr.second + it[1];
+	            if(x<0 || x>=n || y<0 || y>=n || mat[x][y] != 0)  {
+	                continue;
+	            }
+	            q.push(make_pair(x, y));
+	            mat[x][y] = mat[curr.first][curr.second] +1;
+	            if(x == tar.first && y == tar.second)   {
+	                return mat[tar.first][tar.second];
+	            }
+	        }
+	    }
+	    
+	    return -1;
+	}

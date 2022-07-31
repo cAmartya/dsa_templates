@@ -1,0 +1,22 @@
+node* krev(int k, node* head)
+{
+    node* ptr = head;
+    node* ptrprev = nullptr;
+    node* n;
+    
+    int c=0;
+        
+    while( ptr != nullptr && c<k)
+    {
+        n = ptr -> next;
+        ptr -> next = ptrprev;
+        ptrprev = ptr;
+        ptr = n;
+        ++c;
+    }
+    
+    if(n != nullptr)
+        head -> next = krev(k, n);
+    
+    return ptrprev;
+}

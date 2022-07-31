@@ -1,0 +1,54 @@
+vector<int> xsum( vector <int> &a, vector <int> &b)
+{
+    int x=a.size();
+    int y=b.size();
+    
+    int i,t=0;
+	if(x>=y)
+	{
+	    vector <int> r(x+1,0);
+	    int n= x-y;
+	
+	    for(i=x-1;i>=0;i--)
+	    {
+	        if(i-n<0)
+	        {
+	            t=a[i]+r[i+1];
+    	            r[i+1]=t%10;
+	            r[i]+=t/10;
+	        }
+	        
+    	        else
+	        {
+	            t=a[i]+b[i-n]+r[i+1];
+	            r[i+1]=t%10;
+	            r[i]+=t/10;
+	        }
+	    	
+	    }
+	   return r;
+	}
+	else
+	{
+	    vector <int> r(y+1,0);
+	    int n= y-x;
+	    for(i=y-1;i>=0;i--)
+	    {
+	        if(i-n<0)
+	        {
+	            t=b[i]+r[i+1];
+    	        r[i+1]=t%10;
+	            r[i]+=t/10;
+	        }
+	        
+    	        else
+	        {
+	            t=b[i]+a[i-n]+r[i+1];
+	            r[i+1]=t%10;
+	            r[i]+=t/10;
+	        }
+	    	
+	    }
+	    return r;
+	}
+}

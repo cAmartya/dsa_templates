@@ -1,0 +1,34 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int substnorep(string a)
+{
+    int i=0, j=0, l=0;
+    int n =a.length();
+    vector<bool> ch(26, 0);
+    
+    while(j<n)
+    {
+        if(ch[a[j]- 'a'] != 0)
+        {
+            //increment i to remove a[j]
+            while(a[i] != a[j])
+                ++i;
+            
+            ++i;
+        }
+        ch[a[j]- 'a'] = 1;
+        
+        l = max(l, j-i+1);
+        ++j;
+    }
+    return l;
+}
+
+int main() {
+
+	string st;
+	cin >> st;
+	cout << substnorep(st);
+	return 0;
+}

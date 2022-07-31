@@ -1,0 +1,31 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+	
+	deque<int> dq;
+	dq.push_front(1);
+	dq.push_front(0);
+	dq.push_back(2);
+	dq.push_back(3);
+	
+	cout << "size :" << dq.size() << endl;
+	for(auto i = dq.begin(); i != dq.end(); i++)
+	{
+	    cout << *i << "\t";
+	}
+	cout<<endl;
+	cout << "FRONT :" << dq.front() << endl;
+	cout << "BACK :" << dq.back() << endl;
+	dq.pop_back();
+	dq.pop_front();
+	
+	cout << "size :" << dq.size() << endl;
+	for(auto i : dq)
+	{
+	    cout << i << "\t";
+	}
+	
+	return 0;
+}

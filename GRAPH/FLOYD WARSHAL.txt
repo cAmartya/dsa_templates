@@ -1,0 +1,13 @@
+void floyd_war()
+{
+    // adj[][] is the adjacency matrix of order n X n
+    int n = 10;
+    rep(k, 0, n)
+        rep(i, 0, n)
+            rep(j, 0, n)
+                adj[i][j] = min(adj[i][j], adj[i][k] + adj[k][j]);
+            
+        
+    
+    
+}

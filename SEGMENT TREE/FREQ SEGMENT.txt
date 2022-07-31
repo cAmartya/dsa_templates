@@ -1,0 +1,86 @@
+unsigned const int N = (int) 1e+7 + 2;
+pii segt[N];
+int a[N];
+
+void build(int node, int st, int en)    {
+    
+    if(st >= en)
+    {
+        segt[node].ff = a[st];
+        segt[node].ss = 1;
+        return;
+    }
+    
+    int m = (st + en)/2;
+    build(2*node, st, m);
+    build(2*node+1, m+1, en);
+    
+    pii q1 = segt[2*node], q2 = segt[2*node +1];
+    if(q2 < q1)
+        segt[node] = q2;
+    else if(q1 < q2)
+        segt[node] = q1;
+    else
+    {
+        segt[node].ff = q1.ff;
+        segt[node].ss = q1.ss + q2.ss;
+    }
+    
+}
+
+pii query(int node, int st, int en, int l, int r)   {
+    
+    if(st > r || en < l)          //no overlap
+    {
+        pii q = {INT_MAX, -1};
+        return q;
+    }
+    
+    if(l <= st && en <= r)          //complete overlap
+        return segt[node];
+    
+    int m = (st + en)/2;            //partial overlap
+    pii q1 = query(2*node, st, m, l, r);
+    pii q2 = query(2*node +1, m+1, en, l, r);
+    pii q;
+    if(q2 < q1)
+        q = q2;
+    else if(q1 < q2)
+        q = q1;
+    else
+    {
+        q.ff = q1.ff;
+        q.ss = q1.ss + q2.ss;
+    }
+    
+    return q;
+}
+
+void update(int node, int st, int en, int idx, int v)     {
+    
+    if(st == en)
+    {
+        a[st] = v;
+        segt[node].ff = v;
+        segt[node].ss = 1;
+        return ;
+    }
+        
+    int m = (st + en)/2;
+    if(idx <= m)
+        update(2*node, st, m, idx, v);
+    else
+        update(2*node+1, m+1, en, idx, v);
+    
+    pii q1 = segt[2*node], q2 = segt[2*node +1];
+    if(q2 < q1)
+        segt[node] = q2;
+    else if(q1 < q2)
+        segt[node] = q1;
+    else
+    {
+        segt[node].ff = q1.ff;
+        segt[node].ss = q1.ss + q2.ss;
+    }
+    
+}

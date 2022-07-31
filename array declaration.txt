@@ -1,0 +1,39 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define vi vector<int>
+#define pii pair<int, int>
+#define vii vector<pii>
+#define ff first
+#define ss second
+#define INF 0x3f3f3f3f
+#define rep(i, a, b) for(int i=a; i<b; i++)
+
+int main() 
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
+
+	int n, k;
+	cin >> n >> k;
+	int* a;
+	a=new int[n];
+	
+	for(int i=0; i<n; i++)
+	cin >> a[i];
+	
+	cout << subarr(a, n, k);
+	return 0;
+}
+
+//declaring 2D array for function call
+
+	int** a = new int* [N];
+	for(int i=0;i<N;i++)
+	{
+	    a[i] = new int[N];
+	    for(int j=0;j<N;j++)
+	    a[i][j]=0;
+	}
+

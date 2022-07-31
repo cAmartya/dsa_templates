@@ -1,0 +1,22 @@
+vector <vector <int>> s;
+
+void xpermute(vector <int> &a, int idx, int n)
+{
+	if(idx==n)
+	{
+		s.push_back(a);
+		return;
+	}
+	
+	for(int i=idx;i<n;i++)
+	{
+		if(i!=idx && a[i]==a[idx])
+		continue;
+			
+		swap(a[i], a[idx]);
+		xpermute(a, idx+1, n);
+		swap(a[i], a[idx]);
+	}
+	return;
+}
+

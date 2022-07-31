@@ -1,0 +1,20 @@
+const int N = (int)1e+7;
+bool isprime[N+2];
+//int totprime[N+2];		//to calculate totprime change i*i <=N to i <=N
+void gen_sieve() {
+    
+    memset(isprime, 1, sizeof(isprime));
+    //totprime[0] = totprime[1] = 0;
+    isprime[0] = isprime[1] = 0;
+    for(long int i=2; i*i <=N; i++)    {
+        
+        //totprime[i] = totprime[i-1];
+        
+        if(! isprime[i])
+        continue;
+        
+        //++totprime[i];
+        for(long int j=i*i; j <= N; j+=i)
+            isprime[j] = 0;
+    }
+}

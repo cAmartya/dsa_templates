@@ -1,0 +1,20 @@
+    int cal(Node* root, int& ans)   {
+        if(root == NULL)    {
+            return 0;
+        }
+        
+        int l = cal(root-> left, ans);
+        int r = cal(root-> right, ans);
+        
+        int res = max(l + r + 1, 1+ max(l, r));
+        ans = max(ans, res);
+        
+        return max(l, r) +1;
+    }
+    int diameter(Node* root) {
+        // Your code here
+        int ans = 0;
+        int d = cal(root, ans);
+        
+        return ans;
+    }

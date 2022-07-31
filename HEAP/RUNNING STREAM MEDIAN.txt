@@ -1,0 +1,40 @@
+public:
+    priority_queue<int> min_heap;
+    priority_queue<int, vector<int>, greater<int>>max_heap;
+    int sz;
+    MedianFinder() {
+        sz = 0;
+    }
+    
+    void addNum(int num) {
+        sz++;
+        if(sz == 1) {
+            min_heap.push(num);
+            return;
+        }
+        if(min_heap.top() >= num)   {
+            min_heap.push(num);
+        }else   {
+            max_heap.push(num);
+        }
+        
+        if(min_heap.size() > max_heap.size()+1) {
+            int t = min_heap.top();
+            min_heap.pop();
+            max_heap.push(t);
+        }else if(max_heap.size() > min_heap.size()) {
+            int t = max_heap.top();
+            max_heap.pop();
+            min_heap.push(t);
+        }
+    }
+    
+    double findMedian() {
+        if(sz&1)
+            return min_heap.top();
+        else    {
+            int t1 = max_heap.top();
+            int t2 = min_heap.top();
+            return (t1+t2)/2.0;
+        }
+    }

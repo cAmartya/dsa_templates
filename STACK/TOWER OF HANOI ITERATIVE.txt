@@ -1,0 +1,96 @@
+    void moveDisk(int src, int des, int disk)
+    {
+        cout << "move disk " << disk << " from rod " << src << " to rod " << des << "\n";
+    }
+    void move(stack<int>& src,stack<int>& dest, int s, int d)
+    {
+        int pole1TopDisk, pole2TopDisk;
+        if(src.empty())
+            pole1TopDisk = INT_MIN;
+        else
+            {pole1TopDisk = src.top();   src.pop();}
+            
+        if(dest.empty())
+            pole2TopDisk = INT_MIN;
+        else
+            {pole2TopDisk = dest.top(); dest.pop();}
+        
+     
+        // When pole 1 is empty
+        if (pole1TopDisk == INT_MIN)
+        {
+            src.push( pole2TopDisk);
+            moveDisk(d, s, pole2TopDisk);
+        }
+     
+        // When pole2 pole is empty
+        else if (pole2TopDisk == INT_MIN)
+        {
+            dest.push( pole1TopDisk);
+            moveDisk(s, d, pole1TopDisk);
+        }
+     
+        // When top disk of pole1 > top disk of pole2
+        else if (pole1TopDisk > pole2TopDisk)
+        {
+            src.push( pole1TopDisk);
+            src.push( pole2TopDisk);
+            moveDisk(d, s, pole2TopDisk);
+        }
+     
+        // When top disk of pole1 < top disk of pole2
+        else
+        {
+            dest.push( pole2TopDisk);
+            dest.push( pole1TopDisk);
+            moveDisk(s, d, pole1TopDisk);
+        }
+    }
+    long long toh(int n, int src, int des, int hp) {
+        //Your code here
+        stack<int> s;
+        stack<int> h;
+        stack<int> d;
+        
+        int m = n;
+        while(m--)  {
+            s.push(m+1);
+        }
+        
+        int c=0;
+        if(n&1) {
+            
+            while(d.size() != n)    {
+                
+                move(s, d, src, des);
+                ++c;
+                if(d.size() == n)   break;
+                
+                move(s, h, src, hp);
+                ++c;
+                if(d.size() == n)   break;
+                
+                move(h, d, hp, des);
+                ++c;
+            }
+        }
+            
+        else    {
+            
+            while(d.size() != n)    {
+            
+                move(s, h, src, hp);
+                ++c;
+                if(d.size() == n)   break;
+                
+                move(s, d, src, des);
+                ++c;
+                if(d.size() == n)   break;
+                
+                move(h, d, hp, des);
+                ++c;
+            }
+        }
+        
+        return c;
+    }

@@ -1,0 +1,98 @@
+#include <iostream>
+using namespace std;
+
+#define n 20
+class stack
+{
+    public : 
+    int *arr;
+    int top;
+    
+    stack()
+    {
+        arr = new int[n];
+        top = -1;
+    }
+    void push(int x)
+    {
+        if(top == n-1)
+        {
+            cout << " stack overflow" << endl;
+            return;
+        }
+        top++;
+        arr[top] = x;
+        return;
+    }
+    
+    void pop()
+    {
+        if(top == -1)
+        {
+            cout << "stack underflow" << endl;
+            return;
+        }
+        --top;
+    }
+    int Top()
+    {
+        if(top == -1)
+        return -1;
+        
+        return arr[top];
+    }
+    bool empty()
+    {
+        return top == -1;
+    }
+
+};
+
+class  xque
+{
+    stack st;
+    
+    public :
+    
+    void xenque(int x)
+    {
+        st.push(x);
+    }
+    
+    int xdque()
+    {
+        if(st.empty())
+        cout << "queue underflow" << endl;
+        
+        int t = st.Top();
+        st.pop();
+        if(st.empty())
+        return t;
+        
+        int x = xdque();
+        st.push(t);
+        return x;
+        
+    }
+};
+
+int main()
+{
+    xque q;
+    q.xenque(0);
+    q.xenque(1);
+    q.xenque(2);
+    q.xenque(3);
+    cout << q.xdque() << endl;
+    cout << q.xdque() << endl;
+    q.xenque(4);
+    q.xenque(5);
+    cout << q.xdque() << endl;
+    cout << q.xdque() << endl;
+    q.xenque(6);
+    cout << q.xdque() << endl;
+    cout << q.xdque() << endl;
+    cout << q.xdque() << endl;
+
+	return 0;
+}

@@ -1,0 +1,25 @@
+	int isNegativeWeightCycle(int n, vector<vector<int>>edges){
+	    // Code here
+	    vector<int> d(n, INT_MAX);
+        d[0] = 0;
+        for(int i=0; i<n; i++)  {
+            for(auto edge: edges)   {
+                if(d[edge[0]] == INT_MAX)   {
+                    continue;
+                }
+                int dist = d[edge[0]] + edge[2];
+                if(dist < d[edge[1]])   {
+                    d[edge[1]] = dist;
+                }
+            }
+        }
+        
+        for(auto edge: edges)   {
+            int dist = d[edge[0]] + edge[2];
+            if(dist < d[edge[1]])   {
+                return true;
+            }
+        }
+        
+        return false;
+	}

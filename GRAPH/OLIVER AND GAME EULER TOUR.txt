@@ -1,0 +1,64 @@
+#pragma GCC optimize("Ofast")
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
+#pragma GCC optimize("unroll-loops")
+#include <iostream>
+#include <vector>
+using namespace std;
+
+const int N = (int)1e+5 +9;
+vector<int> adj[N+1];
+vector<bool> vis(N+1, 0);
+void eulerdfs(int curr, int par, int& t, vector<int>& inTime, vector<int>& outTime)	{
+	vis[curr] = 1;
+	inTime[curr] = t++;
+	for(int it: adj[curr])	{
+		if(vis[it] == 0 && it != par)	{
+			eulerdfs(it, curr, t, inTime, outTime);
+		}
+	}
+
+	outTime[curr] = t++;	
+}
+// for 0 node oliver should be parent of node bob
+// for 1 node oliver should be child of node bob
+// x is parent of y
+
+int main() {
+	ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+
+	int n;
+	cin >> n;
+
+	for(int i=0; i<n-1; i++)	{
+		int u, v;
+		cin >> u >> v;
+		adj[u].push_back(v);
+		adj[v].push_back(u);
+	}
+
+	vector<int> inTime(n+1, 0);
+	vector<int> outTime(n+1, 0);
+	
+	int t=0;
+	eulerdfs(1, -1, t, inTime, outTime);
+
+	int q;
+	cin >> q;
+	while(q--)	{
+		int d, x, y;
+		cin >> d >> x >> y;
+
+		if(d)	{
+			// swap x and y
+			int temp = y;
+			y = x;
+			x = temp;
+		}
+
+		if(inTime[x] < inTime[y] && outTime[x] > outTime[y])	{
+			cout << "YES\n";
+		}else	{
+			cout << "NO\n";
+		}
+	}
+}

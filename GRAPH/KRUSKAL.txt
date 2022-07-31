@@ -1,0 +1,12 @@
+	    sort(a.begin(), a.end(), cmp);   // or use priority queue 
+     	    
+	    int w = 0;
+	    for(auto i : a)
+	    {
+	        if(find_parent(i[1]) != find_parent(i[2]))
+	        {
+	            w += i[0];
+	            xunion(i[1], i[2]);            
+	        }
+	    }
+    

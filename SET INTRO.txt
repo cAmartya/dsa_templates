@@ -1,0 +1,83 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    
+    unordered_set<int> s;
+    s.insert(1);
+    s.insert(0);
+    s.insert(2);
+    s.insert(0);
+    
+    set<int> s1;
+    s1.insert(1);
+    s1.insert(0);
+    s1.insert(2);
+    s1.insert(0);
+    
+    set<int, greater<int>> s2;
+    s2.insert(1);
+    s2.insert(0);
+    s2.insert(2);
+    s2.insert(0);
+    
+    multiset<int> s3;
+    s3.insert(1);
+    s3.insert(0);
+    s3.insert(2);
+    s3.insert(0);
+    
+    multiset<int> s4;
+    s4.insert(1);
+    s4.insert(0);
+    s4.insert(2);
+    s4.insert(0);
+
+    set<pair<int, int>> m1;
+//  unordered_set<pair<int, int>> m2;  this doesn't work
+        m1.insert(pair<int, int> (30, 9));
+	m1.insert(pair<int, int> (10, 8));
+	m1.insert(pair<int, int> (20, 5));
+	m1.insert(pair<int, int> (30, 2));	
+    
+    for(auto i : s)
+    cout << i << "   ";
+    cout << "\t size" << s.size() << endl;
+    
+    for(auto i : s1)
+    cout << i << "   ";
+    cout << "\t size" << s1.size() << endl;
+    
+    for(auto i : s2)
+    cout << i << "   ";
+    cout << "\t size" << s2.size() << endl;
+    
+    for(auto i : s3)
+    cout << i << "   ";
+    cout << "\t size" << s3.size() << endl;
+    
+    for(auto i : s4)
+    cout << i << "   ";
+    cout << "\t size" << s4.size() << endl;
+    
+    for(auto i :  m1)
+    cout << i. first << "\t" << i.second << endl;
+	
+	return 0;
+}
+
+
+OUTPUT :
+
+2   0   1   	 size3
+0   1   2   	 size3
+2   1   0   	 size3
+0   0   1   2   	 size4
+0   0   1   2   	 size4
+
+
+10	8
+20	5
+30	2
+30	9
+

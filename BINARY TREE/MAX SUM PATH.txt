@@ -1,0 +1,23 @@
+    int cal(TreeNode* root, int& ans)   {
+        if(root == NULL)    {
+            return 0;
+        }
+        
+        int l = cal(root-> left, ans);
+        int r = cal(root-> right, ans);
+        
+        int v = root-> val;
+        int temp = max(l,r);
+        int res = max(l + r + v, max(v, v+temp));
+        ans = max(ans, res);
+        
+        return max(v, v+temp);
+    }
+    
+    int maxPathSum(TreeNode* root) {
+        
+        int ans = INT_MIN;
+        int d = cal(root, ans);
+        
+        return ans;
+    }

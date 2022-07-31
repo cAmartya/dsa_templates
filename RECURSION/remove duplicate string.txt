@@ -1,0 +1,11 @@
+string rd(string s, int c, int n)
+{
+    if(c==n)
+        return "";
+    char ch=s[c];
+    string a=rd(s,c+1,n);
+    if(ch==a[0])
+        return a;
+    else 
+        return (ch+a);
+}

@@ -1,0 +1,66 @@
+#include<bits/stdc++.h>
+class Node    {
+    Node* next[26];
+    bool end = false;
+    public:
+    void put(char ch, Node* node)    {
+        next[ch-'a'] = node;
+    }
+    Node* get(char ch)    {
+        return next[ch-'a'];
+    }
+    bool contains(char ch)    {
+        return next[ch-'a'] != NULL;
+    }
+    void setEnd()    {
+        end = true;
+    }
+    bool isEnd()    {
+        return end;
+    }
+};
+class Trie    {
+    Node* root;
+    public:
+    Trie()    {
+        root = new Node();        
+    }
+    void insert(string st)    {
+        Node* it = root;
+        for(char c: st)    {
+            if(!it-> contains(c))    {
+                it-> put(c, new Node());
+            }
+            it = it-> get(c);
+        }
+        it-> setEnd();
+    }   
+    bool allPref(string st)    {
+        Node* it = root;
+        for(char c: st)    {
+            if(it-> contains(c))    {
+                it = it-> get(c);
+                if(!it->isEnd()) return false;
+            }else    
+                return false;
+        }
+        return true;
+    }
+};
+string completeString(int n, vector<string> &a){
+    // Write your code here.
+    Trie* trie = new Trie;
+    for(string str: a)    {
+        trie-> insert(str);
+    }
+    string res="";
+    for(string str: a)    {
+        if(trie-> allPref(str))    {
+            if(str.length() > res.length())    
+                res = str;
+            else if(str.length() == res.length() && str < res)
+                res = str;
+        }
+    }
+    return (res == "") ? "None" : res;
+}

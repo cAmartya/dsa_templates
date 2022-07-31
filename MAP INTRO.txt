@@ -1,0 +1,59 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+	
+	m1.insert({3, 5}); // also works instead of the long declaration
+	//updating key value
+	auto itr = m1.find(3);
+	itr -> second = 3;
+	//removing key alongwith value
+	m1.erase(3);
+
+	map<int, int> m1;
+	unordered_map<int, int> m2;
+	m1.insert(pair<int, int> (30, 9));
+	m1.insert(pair<int, int> (10, 8));
+	m1.insert(pair<int, int> (20, 5));
+	m1.insert(pair<int, int> (30, 2));
+	
+	for(auto i :  m1)
+	cout << i. first << "\t" << i.second << endl;
+	
+	m2.insert(pair<int, int> (30, 9));
+	m2.insert(pair<int, int> (10, 8));
+	m2.insert(pair<int, int> (20, 5));
+	m2.insert(pair<int, int> (30, 2));
+	
+	for(auto i :  m2)
+	cout << i. first << "\t" << i.second << endl;
+	
+	multimap<int, int> m3;
+	m1.insert(pair<int, int> (30, 1));
+	m1.insert(pair<int, int> (50, 1));
+	m1.insert(pair<int, int> (20, 1));
+	m1.insert(pair<int, int> (10, 1));
+	m1.insert(pair<int, int> (10, 1));
+	m1.insert(pair<int, int> (10, 2));
+	
+	for(auto i :  m3)
+	cout << i. first << "\t" << i.second << endl;
+	
+	return 0;
+}
+
+
+10	8
+20	5
+30	9
+
+20	5
+30	9
+10	8
+
+10	1
+10	1
+10	2
+20	1
+30	1
+50	1

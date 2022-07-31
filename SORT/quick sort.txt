@@ -1,0 +1,35 @@
+    public:
+    int partition (int arr[], int low, int high)
+    {
+       // Your code here
+       int i= low-1;
+       for(int j=low; j<high; j++)  {
+           if(arr[j] < arr[high])   {
+               ++i;
+            //   swap
+               int t = arr[j];
+               arr[j] = arr[i];
+               arr[i] = t;
+           }
+       }
+       
+        ++i;
+        int t = arr[high];
+        arr[high] = arr[i];
+        arr[i] = t;
+        
+        return i;
+    }
+    
+    public:
+    //Function to sort an array using quick sort algorithm.
+    void quickSort(int arr[], int low, int high)
+    {
+        // code here
+        if(low < high)    {
+            int pidx = partition(arr, low, high);
+            
+            quickSort(arr, low, pidx-1);
+            quickSort(arr, pidx+1, high);
+        }
+    }

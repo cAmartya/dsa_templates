@@ -1,0 +1,56 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+//comparators and lambda both working
+// know more about lambda [&] terms capture
+
+#define vi vector<int>
+#define pii pair<int, int>
+#define vii vector<pii>
+#define ff first
+#define ss second
+#define rep(i, a, b) for(int i=a; i<b; i++)
+
+/*
+bool compare(pii a, pii b)
+{
+    return a.ff < b.ff;
+}
+*/
+
+bool compare(vi& a, vi& b)
+{
+    return a[0] > b[0];
+}
+
+int main() 
+{
+	int n;
+	cin >> n;
+	vector<vector<int>> a;
+	//vii a;
+	rep(i, 0, n)
+	{
+	    int p, q, r;
+	    cin >> p >> q >> r;
+	    a.push_back({p, q, r});
+	    /*
+	    pii t;
+	    cin >> p >> q;
+	    t.ff=p;
+	    t.ss=q;
+	    a.push_back(t);
+	    */
+	}
+	
+	//sort(a.begin(), a.end(), compare);
+	sort(a.begin(), a.end(), [&](vi a, vi b){ return a[0] > b[0]; });
+	rep(i, 0, n)
+	cout << a[i][0] << "  " << a[i][1] << "  " << a[i][2] << endl;
+	/*
+	rep(i, 0, n)
+	cout << a[i].ff << "  " << a[i].ss << endl;
+	*/
+	
+	return 0;
+}

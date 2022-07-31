@@ -1,0 +1,26 @@
+	void dfs(int curr, vector<int> adj[], stack<int>& s, vector<bool>& vis)   {
+	    vis[curr] = 1;
+	    for(int it: adj[curr])   {
+	        if(!vis[it])
+	            dfs(it, adj, s, vis);
+	    }
+	    s.push(curr);
+	}
+	vector<int> topoSort(int v, vector<int> adj[]) 
+	{
+	    // code here
+	    stack<int> s;
+	    vector<int> res;
+	    vector<bool> vis(v+1, 0);
+	    for(int i=0; i<v; i++)  {
+	        if(!vis[i])
+	            dfs(i, adj, s, vis);
+	    }
+	    
+	    while(!s.empty())   {
+	        res.push_back(s.top());
+	        s.pop();
+	    }
+	    
+	    return res;
+	}

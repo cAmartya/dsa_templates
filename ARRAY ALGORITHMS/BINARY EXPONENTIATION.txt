@@ -1,0 +1,16 @@
+unsigned const int mod = (int)1e+9 +7;
+int bin_exp(int a, int n)   {
+    
+    int ans = 1;
+    a %= mod;
+    while(n > 0)   {
+        
+        if(n & 1)
+            ans = ans * a % mod ;
+            
+        a = a * a % mod ;
+        n = n >> 1;
+    }
+    
+    return ans;
+}

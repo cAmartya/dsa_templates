@@ -1,0 +1,42 @@
+
+
+
+int countdistinctSubstrings(string s) {
+        
+        int k = 3;
+        
+        vector<int> freq(26, 0);
+        int dis_count = k;
+        int res=0;
+        
+        int i=0, j=0;
+        
+        while(j< s.length())
+        {
+            if(j-i == k)
+            {
+                freq[s[i]-'a']--;
+                if(freq[s[i]-'a'] == 0)
+                    ++dis_count;
+                
+                ++i;
+                
+                // if(!dis_count)
+                //     res++;
+                            
+            }
+            
+            freq[s[j]-'a']++;
+            if(freq[s[j]-'a'] == 1)
+                --dis_count;
+            ++j;
+            // cout << dis_count << " ";
+            // cout << "\n";
+            if(!dis_count)
+                res++;
+
+        }
+        
+        return res;
+        
+    }

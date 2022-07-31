@@ -1,0 +1,30 @@
+    int spanningTree(int v, vector<vector<int>> adj[])
+    {
+        int src=0;
+        priority_queue<pii, vector<pii>, greater<pii>> pq;
+        vector<bool> vis(v+1, 0);
+        int edges=0;
+        for(auto it: adj[src])  {
+            pq.push(make_pair(it[1], it[0]));
+        }
+        // for(int i=0; i<v && edges; i++)
+        int cost=0;
+        vis[src] = 1;
+        while(!pq.empty() && --v)  {
+            while(vis[pq.top().second])    {
+                pq.pop();
+            }
+            auto t = pq.top();
+            int w = t.first;
+            int dst = t.second;
+            pq.pop();
+            
+            cost += w;
+            vis[dst] = 1;
+            for(auto it: adj[dst])  {
+                pq.push(make_pair(it[1], it[0]));
+            }
+        }
+        
+        return cost;
+    }

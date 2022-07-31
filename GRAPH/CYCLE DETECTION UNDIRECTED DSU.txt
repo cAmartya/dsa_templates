@@ -1,0 +1,90 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define vi vector<int>
+#define pii pair<int, int>
+#define vii vector<pii>
+#define ff first
+#define ss second
+#define INF 0x3f3f3f3f
+#define rep(i, a, b) for(int i=a; i<b; i++)
+
+const unsigned int N = 1e+5 + 1;
+vi a[N];
+vi p(N);
+vi sz(N);
+
+int find_parent(int x)
+{
+    if(p[x] == x)
+    return x;
+    else
+    return p[x] = find_parent(p[x]);
+}
+void xunion(int x, int y)
+{
+    int a = find_parent(x);
+    int b = find_parent(y);
+    
+    if(a != b)
+    {
+        if(sz[a] < sz [b])
+        {
+            //swap(a, b);
+            int t;
+            t = a;
+            a = b;
+            b = t;
+        }
+        p[b] = a;
+        sz[a] += sz[b];
+    }
+    
+}
+
+bool iscycle_DSU(int n)
+{
+    rep(i, 0, n-1)
+	{
+	    int x = find_parent(i);
+	    for(auto it : a[i])
+	    {
+	        int y = find_parent(it);
+	        if(x == y)
+	        return true;
+	        else
+	        xunion(i, it);
+	    }
+	}
+	
+	return false;
+}
+
+int main() {
+	
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	
+	int n, m, u, v, w;
+	cin >> n >> m;
+	
+	rep(i, 0, m)
+	{
+	    cin >> u >> v >> w;
+	    //a[u].push_back({w, v});
+	    //a[v].push_back({w, u});
+	    a[u].push_back(v);
+	    //a[v].push_back(u);
+	    
+	    
+	    p[u] = u; p[v] = v;
+	    sz[u] = sz[v] = 1;
+	}
+	
+	if(iscycle_DSU(n))
+	cout << "cycle is present" << endl;
+	else
+	cout << "cycle is not present" << endl;
+	
+	return 0;
+}

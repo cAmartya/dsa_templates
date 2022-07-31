@@ -1,0 +1,22 @@
+    int findMin(vector<int>& a) {
+        
+        int n = a.size();
+        int lb=0, ub = n-1;  
+        if(n==1)    return a[0];
+        while(lb<=ub)
+        {
+            int m = lb + (ub-lb) / 2;
+            cout << lb << "|" << m << "|" << ub << ",";
+            
+            if(a[m] < a[(m+1)%n] && a[m] < a[(m+n-1)%n])
+            return a[m];
+            if(a[ub] >= a[m])   {
+                ub = m-1;
+            }
+            else    {
+                lb = m+1;
+            }
+        }
+        
+        return -1;       
+    }

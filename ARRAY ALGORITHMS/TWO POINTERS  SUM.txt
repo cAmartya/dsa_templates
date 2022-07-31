@@ -1,0 +1,43 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+bool x2pointers(int* a, int n, int i, int t)
+{
+    int* x = a+i; int* y = a+n-1;
+	while(x < y)
+    {
+        
+        if(*x + *y < t)
+        x++;
+        else if(*x + *y > t)
+        y--;
+        else
+        return true;
+    }
+    return false;
+}
+
+int main()
+{
+	int n,s;
+	cin >> n >> s;
+	int* a;
+	a = new int[n];
+	for(int i=0;i<n;i++)
+	cin >> a[i];
+	
+	sort(a, a+n);
+	for(int i=0;i<n;i++)
+	{
+	    int t = s-a[i];
+	    if(x2pointers(a, n, i, t))
+	    {
+	        cout << "found" << endl;
+	        return 0;
+	    }
+	}
+	    
+	cout << "not found" << endl;
+	
+	return 0;
+}

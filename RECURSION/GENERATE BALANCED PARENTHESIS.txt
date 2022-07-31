@@ -1,0 +1,29 @@
+    void solve(int n, string op, int open, int cls, vector<string>& s)  {
+        if(n == 0)  {
+            // cout << op << "|";
+            // s.insert(op);
+            s.push_back(op);
+            return;
+        }
+            
+        if(open > 0) {
+            string op1 = op + '(';            
+            solve(n-1, op1, open-1, cls, s);
+        }
+        if(cls > 0 && open < cls) {
+            string op2 = op + ')';        
+            solve(n-1, op2, open, cls-1, s);
+        }
+    }
+    vector<string> generateParenthesis(int n) {
+                
+        // set<string> s;        
+        vector<string> res;
+        solve(2*n, "", n, n, res);
+        
+        // for(string st: s)   {
+        //     res.push_back(st);
+        // }
+        
+        return res;
+    }

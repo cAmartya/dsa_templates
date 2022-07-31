@@ -1,0 +1,28 @@
+    int minPathCost(vector<vector<int>>& mat, vector<vector<int>>& moveCost) {
+        
+        int n = mat.size();
+        int m = mat[0].size();
+        vector<int> prev(m, 0), curr(m, 0);
+        
+        for(int i=0; i<m; i++)  {
+            prev[i] = mat[0][i];
+        }
+        
+        for(int i=1; i<n; i++)  {
+            for(int j=0; j<m; j++)  {
+                int sm = INT_MAX;
+                for(int k=0; k<m; k++)  {
+                    int cost = prev[k] + moveCost[mat[i-1][k]][j];
+                    sm = min(sm, cost);
+                }
+                curr[j] = sm + mat[i][j];
+            }
+            prev = curr;
+        }
+        int ans = INT_MAX;
+        for(int i: prev)    {
+            ans = min(ans, i);
+        }
+        
+        return ans;
+    }

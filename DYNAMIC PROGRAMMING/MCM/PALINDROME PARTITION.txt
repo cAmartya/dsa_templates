@@ -1,0 +1,55 @@
+// to find minimum partitions of a string such that each partition is a palindrome
+
+const int N = (int)1e+4;
+int dp[N+1][N+1];
+bool ispal(string s)
+{
+    string rev(s.rbegin(), s.rend());
+    return rev == s;
+}
+
+int solve(string s, int i, int j)
+{
+    if (i >= j)
+        return 0;
+    if(dp[i][j] != -1)
+        return dp[i][j];
+    if (ispal(s.substr(i, j + 1)))
+        return 0;
+    
+    int ans = INT_MAX, t, l, r;
+    for(int k = i; k <= j-1; k++)
+    {
+        // t=solve(s, i, k) + 1 + solve(s, k+1, j);
+        if(dp[i][k] != -1)
+            l = dp[i][k];
+        l = solve(s, i, k);
+        if(dp[k+1][j] != -1)
+            r = dp[k+1][j];
+        r = solve(s, k+1, j);
+
+        t = l + r + 1;
+
+        ans = min(ans, t);
+    }
+
+    return dp[i][j] = ans;
+
+}
+int main()
+{
+    fast_cin();
+    ll t;
+    cin >> t;
+    for (int it = 1; it <= t; it++)
+    {
+        int l;
+        cin >> l;
+        string s;
+        cin >> s;
+        memset(dp, -1, sizeof(dp));
+        cout << "Case #" << it << ": " << solve(s, 0, l-1);
+
+    }
+    return 0;
+}

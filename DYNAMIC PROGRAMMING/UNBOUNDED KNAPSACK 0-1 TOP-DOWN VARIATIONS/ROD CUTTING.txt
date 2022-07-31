@@ -1,0 +1,49 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define vi vector<int>
+#define pii pair<int, int>
+#define vii vector<pii>
+#define ff first
+#define ss second
+#define rep(i, a, b) for(int i=a; i<b; i++)
+
+static int dp[8+1][8+1];
+
+int solve(vi wt, vi val, int w, int n)
+{
+    
+    rep(i, 1, n+1)
+    {
+        rep(j, 1, w+1)
+        {
+            if(j-wt[i-1] >= 0)
+            {
+                dp[i][j] = max(dp[i][j - wt[i-1]] + val[i-1], dp[i-1][j]);
+            }
+            else
+            dp[i][j] = dp[i-1][j];
+        }
+    }
+    
+    return dp[n][w];   
+}
+int main() {
+	// your code goes here
+	vi wt = {1, 2, 3, 4, 5, 6, 7, 8};
+	vi val = {1, 5, 8, 9, 10, 17, 17, 20};
+	int w = 8;
+	int n = wt.size();
+	memset(dp, 0, sizeof(dp));
+	cout << solve(wt, val, w, n);
+	cout << "\n\n\n";
+	
+	rep(i, 0, n+1)
+	{
+	    rep(j, 0, w+1)
+	        cout << dp[i][j] << "\t";
+	    cout <<endl;
+	}
+	
+	return 0;
+}

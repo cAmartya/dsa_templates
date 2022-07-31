@@ -1,0 +1,36 @@
+    unordered_map<string, pair<TreeNode*, int>> mp;
+    string helper(TreeNode* root)   {
+        if(!root)   {
+            return "#";
+        }
+
+        string res = "";
+        res += to_string(root-> val)+ "$";
+
+        res += helper(root-> left);
+        res += helper(root-> right);
+
+        auto f = mp.find(res);
+        if(f != mp.end())   {
+            // pair<Node*, int> temp = f-> second;
+            f-> second.second = f-> second.second +1;
+        }else   {
+            pair<TreeNode*, int> temp(root, 1);
+            mp[res] = temp;
+        }
+        return res;
+    }
+    vector<TreeNode*> findDuplicateSubtrees(TreeNode* root) {
+        vector<TreeNode*> ans;
+        if(!root)   {
+            return ans;
+        }
+        string tree = helper(root);
+        for(auto i: mp) {
+            if(i.second.second >= 2){
+                ans.push_back(i.second.first);
+            }
+        }
+
+        return ans;
+    }

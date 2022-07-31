@@ -1,0 +1,12 @@
+    while(lb<=ub)
+    {
+        int m = (lb+ub) / 2;
+        if(arr[m] == V)
+        return m;
+        else if(arr[m] > V)
+        ub=m-1;
+        else
+        lb=m+1;
+    }
+    
+    return -1;

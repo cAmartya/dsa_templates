@@ -1,0 +1,104 @@
+    int chg[3] = {-1, 0, +1};
+    int solve(vector<vector<int>>& mat, vector<vector<vector<int>>>& dp, int i, int j1, int j2) {
+        int m = mat[0].size();
+        if(j1<0 || j1 >=m || j2<0 || j2 >=m)    return -1000;
+        if(i == mat.size()-1)   {
+            if(j1 == j2)    return mat[i][j1];
+            else    return mat[i][j1] + mat[i][j2];
+        }
+        if(dp[i][j1][j2] != -1) return dp[i][j1][j2];
+        int ans=INT_MIN;
+        for(int p=0; p<3; p++)  {
+            int val = 0;
+            for(int q=0; q<3; q++)  {
+                if(j1 == j2)  {
+                    val =  mat[i][j1];
+                }else   {
+                    val = mat[i][j1] +mat[i][j2];
+                }
+                val += solve(mat, dp, i+1, j1 +chg[p], j2 +chg[q]);
+                ans = max(ans, val);
+            }
+        }
+        return dp[i][j1][j2] = ans;        
+    }
+    int cherryPickup(vector<vector<int>>& mat) {
+        int n = mat.size();
+        int m = mat[0].size();
+        // return solve(mat, dp, 0, 0, m-1);
+        // vector<vector<vector<int>>> dp(n, vector<vector<int>>(m, vector<int>(m, -1)));
+        
+//         for(int j1=0; j1<m; j1++)  {
+//             for(int j2=0; j2<m; j2++)  {
+//                 if(j1 == j2)  {
+//                     dp[n-1][j1][j2] =  mat[n-1][j1];
+//                 }else   {
+//                     dp[n-1][j1][j2] = mat[n-1][j1] +mat[n-1][j2];
+//                 }
+//             }
+//         }
+//         for(int i=n-2; i>=0; i--)   {
+//             for(int j1=0; j1<m; j1++)  {
+//                 for(int j2=0; j2<m; j2++)  {
+//                     int ans=0;
+//                     for(int p=0; p<3; p++)  {
+//                         int val = 0;
+//                         for(int q=0; q<3; q++)  {
+//                             if(j1 == j2)  {
+//                                 val =  mat[i][j1];
+//                             }else   {
+//                                 val = mat[i][j1] +mat[i][j2];
+//                             }
+//                             if(j1+chg[p]>=0&&j1+chg[p]<m && j2+chg[q]>=0&&j2+chg[q]<m)
+//                                 val += dp[i+1][j1 +chg[p]][j2 +chg[q]];
+//                             else
+//                                 val = -1000;
+//                             ans = max(ans, val);
+//                         }
+//                     }
+//                     dp[i][j1][j2] = ans;
+//                 }
+//             }
+//         }
+        
+//         return dp[0][0][m-1];
+        
+        vector<vector<int>> after(m, vector<int>(m, 0));
+        vector<vector<int>> curr(m, vector<int>(m, 0));
+                
+        for(int j1=0; j1<m; j1++)  {
+            for(int j2=0; j2<m; j2++)  {
+                if(j1 == j2)  {
+                    after[j1][j2] =  mat[n-1][j1];
+                }else   {
+                    after[j1][j2] = mat[n-1][j1] +mat[n-1][j2];
+                }
+            }
+        }
+        for(int i=n-2; i>=0; i--)   {
+            for(int j1=0; j1<m; j1++)  {
+                for(int j2=0; j2<m; j2++)  {
+                    int ans=0;
+                    for(int p=0; p<3; p++)  {
+                        int val = 0;
+                        for(int q=0; q<3; q++)  {
+                            if(j1 == j2)  {
+                                val =  mat[i][j1];
+                            }else   {
+                                val = mat[i][j1] +mat[i][j2];
+                            }
+                            if(j1+chg[p]>=0&&j1+chg[p]<m && j2+chg[q]>=0&&j2+chg[q]<m)
+                                val += after[j1 +chg[p]][j2 +chg[q]];
+                            else
+                                val = -1000;
+                            ans = max(ans, val);
+                        }
+                    }
+                    curr[j1][j2] = ans;
+                }
+            }
+            after = curr;
+        }
+        
+        return after[0][m-1];
+    }

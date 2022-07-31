@@ -1,0 +1,33 @@
+class Compare  {
+    public:
+    bool operator() (ListNode* a, ListNode* b)   {
+        return a-> val > b-> val;
+    }
+};
+
+class Solution {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        ListNode* dummy = new ListNode();
+        ListNode* newhead = dummy;
+        int k = lists.size();
+        if(k==0)
+            return newhead-> next;
+        
+        priority_queue<ListNode*, vector<ListNode*>, Compare> pq;
+        
+        for(int i=0; i<k; i++)  {
+            if(lists[i])
+                pq.push(lists[i]);
+        }
+        
+        while(!pq.empty())   {           
+            dummy-> next = pq.top();
+            pq.pop();
+            dummy = dummy-> next;
+            if(dummy-> next)
+                pq.push(dummy-> next);
+        }
+        return newhead-> next;
+    }
+};

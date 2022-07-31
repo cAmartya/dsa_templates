@@ -1,0 +1,57 @@
+    vector <int> maxOfMin(int arr[], int n)
+    {
+        // Your code here
+        stack<int> s;
+        vector<int> nsr(n, 0);
+        
+        for(int i=n-1; i>=0; i--)   {
+            
+            while(!s.empty() && arr[s.top()] >= arr[i])  {
+                s.pop();
+            }
+            if(s.empty())   {
+                nsr[i] = n;
+            }else   {
+                nsr[i] = s.top();
+            }
+            
+            s.push(i);
+        }
+        
+        while(!s.empty())   {
+            s.pop();
+        }
+        vector<int> nsl(n, 0);
+        
+        for(int i=0; i<n; i++)   {
+            
+            while(!s.empty() && arr[s.top()] >= arr[i])  {
+                s.pop();
+            }
+            if(s.empty())   {
+                nsl[i] = -1;
+            }else   {
+                nsl[i] = s.top();
+            }
+            
+            s.push(i);
+        }
+        
+        vector<int> res(n+1, 0);
+        
+        for(int i=0; i<n; i++)  {
+            int c = nsr[i]-nsl[i]-1;
+            res[c] = max(res[c], arr[i]);
+        }
+    
+        for (int i=n-1; i>=0; i--)
+            res[i] = max(res[i], res[i+1]);        
+            
+        vector<int> ans(n);
+        
+        for(int i=0; i<n; i++)  {
+            ans[i] = res[i+1];
+        }
+        
+        return ans;
+    }

@@ -1,0 +1,32 @@
+
+bool gpath(node* root, int k, vi& p)
+{
+    if(root == NULL)
+    return 0;
+    
+    p.push_back(root -> data);
+    if(root -> data == k)
+    return 1;
+    
+    if(gpath(root -> left, k, p) || gpath(root -> right, k, p))
+    return 1;
+    
+    p.pop_back();
+    return 0;
+}
+
+int LCA(node* root, int n1, int n2)
+{
+    vi p1, p2;
+    if(!gpath(root, n1, p1) || !gpath(root, n2, p2))
+    return -1;
+    
+    int idx;
+    for(idx=0; idx < min(p1.size(), p2.size()); idx++)
+    {
+        if(p1[idx] != p2[idx])
+        break;
+    }
+    
+    return p1[idx -1];
+}

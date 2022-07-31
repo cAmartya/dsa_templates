@@ -1,0 +1,36 @@
+#include <iostream>
+using namespace std;
+
+int raintrap(int* a, int n)
+{
+    
+    int l[n]={0}, r[n]={0}, lmax=a[0], rmax=a[n-1];
+    for(int i=0; i<n; i++)
+    {
+        if(a[i] > lmax)
+        lmax = a[i];
+        if(a[n-i-1] > rmax)
+        rmax = a[n-i-1];
+        
+        l[i] = lmax;
+        r[n-1-i] = rmax;
+    }
+    int s=0;
+    for(int i=0; i<n; i++)
+        s+= min(l[i],r[i]) - a[i];
+    
+    return s;
+}
+
+int main()
+{
+	int n;
+	cin >> n;
+	int* a = new int[n];
+	for(int i=0; i<n; i++)
+	cin >> a[i];
+	
+	cout << raintrap(a, n) << endl;
+	return 0;
+	return 0;
+}

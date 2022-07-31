@@ -1,0 +1,29 @@
+    int minFallingPathSum(vector<vector<int>>& mat) {
+        int n = mat.size();
+        vector<int> prev(n, 0), curr(n, 0);
+        
+        for(int i=0; i<n; i++)  {
+            prev[i] = mat[0][i];
+        }
+        
+        for(int i=1; i<n; i++)  {
+            for(int j=0; j<n; j++)  {
+                int ld = INT_MAX, rd = INT_MAX;
+                int st = prev[j] + mat[i][j];
+                if(j>0) {
+                    ld = prev[j-1] + mat[i][j];
+                }
+                if(j<n-1)   {
+                    rd = prev[j+1] + mat[i][j];
+                }
+                curr[j] = min(st, min(ld, rd));
+            }
+            prev = curr;
+        }
+        int ans = INT_MAX;
+        for(int i: prev)    {
+            ans = min(ans, i);
+        }
+        
+        return ans;
+    }

@@ -1,0 +1,18 @@
+    int findDuplicate(vector<int>& nums) {
+        int f = nums[0], s = nums[0];
+        
+        do  {
+            f = nums[nums[f]];
+            s = nums[s];
+        }while(f != s);
+        
+        f = nums[0];
+        while(f != s)   {
+            f = nums[f];
+            s = nums[s];
+        }
+        
+        return s;
+    }
+
+// similar to rabit-hare for linked list cycle detection

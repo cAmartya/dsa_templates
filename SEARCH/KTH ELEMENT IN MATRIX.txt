@@ -1,0 +1,36 @@
+    // if only row wise sorted
+    int up_bound(vector<int>& arr, int m)   {
+        int n = arr.size();
+        int low = 0, high = n-1;
+        int last = -1;
+        while(low <= high)  {
+            int mid = low + (high-low)/2;
+            if(arr[mid] <= m)   {
+                last = mid;
+                low = mid+1;
+            }else   {
+                high = mid-1;
+            }
+        }
+        return last +1;
+    }
+    int kthSmallest(vector<vector<int>>& mat, int k) {
+        int n = mat.size();
+        int low = mat[0][0], high = mat[n-1][n-1];
+        int res = -1;
+        while(low <= high)  {
+            int mid = low + (high - low)/2;
+            int cnt = 0;
+            for(auto i : mat)   {
+                cnt += up_bound(i, mid);
+            }
+            if(cnt < k)
+                low = mid +1;
+            else   {
+                res = mid;
+                high = mid -1;
+            }
+        }
+        
+        return res;
+    }

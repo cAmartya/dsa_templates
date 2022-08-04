@@ -1,0 +1,25 @@
+    string getPermutation(int n, int k) {
+        long long fact = 1;        
+        vector<int> arr;
+        for(int i=1; i<n; i++)  {
+            arr.push_back(i);
+            fact *= i;
+        }
+        arr.push_back(n);
+        string res = "";
+        --k;
+        while(k && n>0)    {
+            int idx = k / fact;
+            int num = arr[idx];
+            arr.erase(arr.begin()+idx);
+            --n;
+            res += (num + '0');
+            k = k % fact;
+            fact /= n;            
+        }
+        if(arr.size()>0)    {
+            for(int i: arr) res += i + '0';
+        }
+        
+        return res;
+    }

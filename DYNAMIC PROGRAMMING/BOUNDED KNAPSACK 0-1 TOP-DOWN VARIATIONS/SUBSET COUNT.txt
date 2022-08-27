@@ -14,10 +14,11 @@ int solve(vi wt, int w, int n)
 {
     rep(i, 0, n+1)
     dp[i][0] = 1;
-    
+    dp[0][0] = (wt[0] == 0) ? 2 : 1;
+    if(wt[0] != 0 && wt[0] <= w)	dp[0][wt[0]] = 1;
     rep(i, 1, n+1)
     {
-        rep(j, 1, w+1)
+        rep(j, 0, w+1)
         {
             if(j-wt[i-1] >= 0)
             {

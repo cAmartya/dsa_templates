@@ -1,0 +1,32 @@
+    void printNQueens(vector<string>chess,vector<vector<string>>&s , int row, vector<bool>& freecol, vector<bool>& ld, vector<bool>& rd, int n) {
+        if(n == 0)  return;  
+        if(row == n)    {
+            s.push_back(chess);
+            return;
+        }
+
+        for(int i=0; i<n; i++)  {
+            if(freecol[i] == 0 && ld[row+i] == 0 && rd[n-1 + i-row] == 0){
+                chess[row][i]='Q';
+                freecol[i] = ld[row+i] = rd[n-1 + i-row] = 1;
+                printNQueens(chess, s, row+1, freecol, ld, rd, n);
+                chess[row][i]='.';
+                freecol[i] = ld[row+i] = rd[n-1 + i-row] = 0;
+            }
+        }
+    }
+
+    vector<vector<string>> solveNQueens(int n) {
+        string st="";
+        vector<vector<string>>v ;
+        for(int i=0;i<n;i++){
+            st+='.';
+        }
+        vector<string>s(n,st);
+        vector<bool> freecol(n, 0);
+        vector<bool> ld(2*n-1, 0);
+        vector<bool> rd(2*n-1, 0);
+    
+        printNQueens(s, v, 0, freecol, ld, rd, n);
+        return v;
+    }

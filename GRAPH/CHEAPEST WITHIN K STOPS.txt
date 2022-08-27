@@ -1,0 +1,65 @@
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
+
+//         vector<vector<int>> adj[100 +1];
+//         for(auto edge: flights)    {
+//             adj[edge[0]].push_back({edge[1], edge[2]});
+//         }
+//         vector<int> d(n+1, INT_MAX);        
+//         vector<int> stops(n+1, INT_MAX);
+//         priority_queue<tiii, vector<tiii>, greater<tiii>> pq;
+        
+//         d[src]=0;
+//         stops[src]=0;
+//         pq.push(make_tuple(0, src, 0));
+        
+//         while(!pq.empty())  {
+//             auto [cost, tar, stp] = pq.top();
+//             pq.pop();
+//             if(dst == tar)  {
+//                 return cost;
+//             }
+//             if(stp > k)  continue;
+//             for(auto it: adj[tar])   {
+//                 int dist = cost + it[1];
+//                 int s = stp +1;
+//                 if(dist < d[it[0]]) {
+//                     d[it[0]] = dist;
+//                     stops[it[0]] = s;
+//                     pq.push(make_tuple(dist, it[0], s));
+//                 }else if(s < stops[it[0]])  {
+//                     d[it[0]] = dist;
+//                     stops[it[0]] = s;
+//                     pq.push(make_tuple(dist, it[0], s));
+//                 }
+//             }
+//         }
+//         return -1;
+        
+        vector<vector<pair<int,int>>> graph(n,vector<pair<int,int>>());
+        for(auto& f:flights){
+            graph[f[0]].push_back({f[1],f[2]});
+        }
+        vector<int> mincost(n,INT_MAX);
+        int res = INT_MAX;
+        queue<pair<int,int>> q;
+        q.push({src,0});
+        while(k>=-1 && !q.empty()){
+            int qs = q.size();
+            for(int i = 0;i<qs;i++){
+                int curr = q.front().first;
+                int cost = q.front().second;
+                q.pop();
+                if(cost>=res || cost>=mincost[curr]) continue;
+                if(curr==dst){
+                    res = min(res,cost);
+                    continue;
+                }
+                mincost[curr] = cost;
+                for(auto next:graph[curr]){
+                    q.push({next.first,cost+next.second});
+                }
+            }
+            k--;
+        }
+        return res==INT_MAX? -1: res;    
+    }

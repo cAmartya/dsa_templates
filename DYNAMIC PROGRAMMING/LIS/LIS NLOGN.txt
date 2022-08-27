@@ -42,5 +42,8 @@
                 *idx = nums[i];
             }
         }
+        return len;
+    }
+
         
        

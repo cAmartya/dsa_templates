@@ -1,0 +1,18 @@
+    vector<int> partitionLabels(string s) {
+        int n = s.length();
+        vector<int> pos(26, 0);
+        for(int i=0; i<n; i++)  {
+            pos[s[i]-'a'] = i;            
+        }
+        for(int i: pos) cout << i << " ";
+        int a=-1, b=0;
+        vector<int> res;
+        for(int i=0; i<n; i++)  {
+            b = max(b, pos[s[i]-'a']);
+            if(b == i)  {
+                res.push_back(b-a);
+                a = b;
+            }
+        }
+        return res;
+    }

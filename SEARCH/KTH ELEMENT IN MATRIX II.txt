@@ -1,4 +1,4 @@
-    // if only row wise sorted    
+    // if row and col wise sorted    
     int cntLE(vector<vector<int>>& mat, int m)   {
         int n = mat.size();
         int j = 0, i = n-1;

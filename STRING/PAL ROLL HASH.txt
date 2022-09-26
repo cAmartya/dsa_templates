@@ -1,0 +1,49 @@
+vector<vector<int>> palindromePairs(vector<string>& wd) {
+        int mod = (int)1e+9 +7;
+        int b = 27;        
+        
+        auto strhash = [&](string s)    {
+            int l = s.length();
+            
+            int h = 0;
+            for(int i=0; i<l; i++)  {
+                h = ((h*1ll*b) % mod + (s[i] - 'a' +1) % mod) % mod;    
+            }
+            
+            int rh = 0;
+            for(int i=l-1; i>=0; i--)  {
+                rh = ((rh*1ll*b) % mod + (s[i] - 'a' +1) % mod) % mod;    
+            }            
+            
+            vector<int> t = {h, rh};
+            return t;
+        };
+        
+        int n = wd.size();
+        vector<vector<int>> hash;
+        int lg=0;
+        for(string i: wd)  {
+            hash.push_back(strhash(i));
+            lg = max(lg, (int)i.length());
+        }
+        
+        vector<int> p(lg+2);
+        p[0] = 1;
+        for(int i=1; i<lg+2; i++)    {
+            p[i] = (p[i-1] *1ll* b) % mod;
+        }
+        
+        vector<vector<int>> res;
+        for(int i=0; i<n; i++)  {
+            for(int j = i+1; j<n; j++)  {
+                ll ij = ((hash[i][0] * 1ll * p[wd[j].length()]) % mod + hash[j][0]) % mod;
+                ll rij = ((hash[j][1] * 1ll * p[wd[i].length()]) % mod + hash[i][1]) % mod;
+                if(ij == rij)   res.push_back({i, j});
+                
+                ll ji = ((hash[j][0] * 1ll * p[wd[i].length()]) % mod + hash[i][0]) % mod;
+                ll rji = ((hash[i][1] * 1ll * p[wd[j].length()]) % mod + hash[j][1]) % mod;
+                if(ji == rji)   res.push_back({j, i});                
+            }
+        }
+        return res;
+    }

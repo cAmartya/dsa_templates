@@ -1,0 +1,27 @@
+class Solution {
+public:
+vector<int> adj[2000 +1];
+    bool isCyclic(int n, vector<vector<int>>& pre) {
+        // vector<bool> vis(n, 0);
+        vector<int> indeg(n, 0);
+        for(auto i: pre)    {
+            adj[i[0]].push_back(i[1]);
+            ++indeg[i[1]];
+        }
+        queue<int> q;
+        for(int i=0; i<n; i++) if(indeg[i] == 0)   q.push(i);
+
+        int c=0;
+        while(!q.empty())   {
+            ++c;
+            int curr = q.front();
+            q.pop();
+            for(int it: adj[curr])  {
+                --indeg[it];
+                if(indeg[it] == 0)  q.push(it);
+            }
+        }
+        if(c == n)  return false;
+        return true;
+    }
+};

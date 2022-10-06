@@ -1,0 +1,55 @@
+
+const int INF = 1000000000;
+vector<vector<pair<int, int>>> adj;
+
+void findTopoSort(int node, int vis[], stack<int> &st, vector<pair<int,int>> adj[]) {
+    vis[node] = 1; 
+    for(auto it : adj[node]) {
+        if(!vis[it.first]) {
+            findTopoSort(it.first, vis, st, adj); 
+        }
+    }
+    st.push(node);
+}
+
+
+void shortestPath(int src, int N, vector<pair<int,int>> adj[]) 
+{ 
+	int vis[N] = {0};
+	stack<int> st; 
+	for (int i = 0; i < N; i++) 
+		if (!vis[i]) 
+			findTopoSort(i, vis, st, adj); 
+			
+	vector<int> d(N);
+ 	vector<int> p(N);
+	for (int i = 0; i < N; i++) 
+		dist[i] = 1e9; 
+	dist[src] = 0; 
+
+	while(!st.empty()) 
+	{  
+		int node = st.top(); 
+		st.pop(); 
+ 
+		if (dist[node] != INF) {
+		    for(auto it : adj[node]) {
+		        if(dist[node] + it.second < dist[it.first]) {
+		            dist[it.first] = dist[node] + it.second; 
+			    p[it.first] = node;
+		        }
+		    }
+		}
+	} 
+} 
+
+// to restore path
+// vector<int> restore_path(int s, int t, vector<int> const& p) {
+//     vector<int> path;
+
+//     for (int v = t; v != s; v = p[v])
+//         path.push_back(v);
+//     path.push_back(s);
+
+//     reverse(path.begin(), path.end());
+//     return path;

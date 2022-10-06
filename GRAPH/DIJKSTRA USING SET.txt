@@ -1,0 +1,25 @@
+    vector <int> dijkstra(int v, vector<vector<int>> adj[], int src)
+    {
+        int lg = (int)1e+9;
+        vector<int> d(v, lg);
+        
+        set<pair<int, int>> s;
+        s.insert({0, src});
+        d[src] = 0;
+        
+        while(!s.empty())   {
+            auto curr = *(s.begin());
+            s.erase(curr);
+            for(auto it: adj[curr.second]) {
+                int dist = d[curr.second] + it[1];
+                if(dist < d[it[0]]) {
+                    if(d[it[0]] != lg)  s.erase({d[it[0]], it[0]});
+                    
+                    s.insert({dist, it[0]});
+                    d[it[0]] = dist;
+                }
+            }
+        }
+        
+        return d;
+    }

@@ -1,0 +1,29 @@
+    // using rolling hash insead of direct strings will be more effective
+    int ladderLength(string s, string e, vector<string>& wd) {
+        unordered_map<string, int> mp;
+        for(auto i: wd) mp.insert({i, 1e+9});
+        if(mp.find(e) == mp.end())  return 0;
+        queue<string> q;
+        q.push(s);
+        if(mp.find(s) == mp.end())
+        mp.insert({s, 1});
+        else
+        mp[s] = 1;
+
+        while(!q.empty())   {
+            string curr = q.front();
+            q.pop();
+            int n = curr.length();
+            for(int i=0; i<n; i++)  {
+                string t = curr;
+                for(char j='a'; j<='z'; j++) {
+                    t[i] = j;
+                    if(mp.find(t) != mp.end() && mp[curr]+1 < mp[t])    {
+                        mp[t] = mp[curr]+1;
+                        q.push(t);
+                    }
+                }
+            }
+        }
+        return (mp[e] == 1e+9) ? 0 : mp[e];
+    }

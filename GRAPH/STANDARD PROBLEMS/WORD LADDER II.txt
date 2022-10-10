@@ -1,0 +1,60 @@
+    void dfs(string& s, unordered_map<string, int>& mp, vector<string>& temp, vector<vector<string>>& res)   {
+        
+        // temp.push_back(s);
+        if(mp[s] == 1)  {
+            reverse(temp.begin(), temp.end());
+            // for(auto i: temp)   cout << i << " ";
+            // cout << "\n";
+            res.push_back(temp);
+            reverse(temp.begin(), temp.end());
+            return;
+        }
+        for(int i=0; i<s.length(); i++)  {
+            string t = s;
+            for(char j='a'; j<='z'; j++) {
+                t[i] = j;
+                if(mp.find(t) != mp.end() && mp[t]+1 == mp[s])    {
+                    // cout << t << " ";
+                    temp.push_back(t);
+                    dfs(t, mp, temp, res);
+                    temp.pop_back();
+                }
+            }
+        }
+    }
+    vector<vector<string>> findLadders(string s, string e, vector<string>& wd) {
+        unordered_map<string, int> mp;
+        for(auto i: wd) mp.insert({i, 1e+9});
+        // if(mp.find(e) == mp.end())  return {};
+        queue<string> q;
+        q.push(s);
+        if(mp.find(s) == mp.end())
+        mp.insert({s, 1});
+        else
+        mp[s] = 1;
+
+        while(!q.empty())   {
+            string curr = q.front();
+            q.pop();
+            int n = curr.length();
+            for(int i=0; i<n; i++)  {
+                string t = curr;
+                for(char j='a'; j<='z'; j++) {
+                    t[i] = j;
+                    if(mp.find(t) != mp.end() && mp[curr]+1 < mp[t])    {
+                        mp[t] = mp[curr]+1;
+                        q.push(t);
+                    }
+                }
+            }
+        }
+
+        vector<vector<string>> res;
+        int t = mp[e];
+        if(t == 1e+9)   return res;
+        
+        vector<string> temp;
+        temp.push_back(e);
+        dfs(e, mp, temp, res);
+        return res;
+    }

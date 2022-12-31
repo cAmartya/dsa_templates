@@ -1,0 +1,43 @@
+typedef long long ll;
+class Solution {
+public:
+    int sumSubarrayMins(vector<int>& arr) {
+        int n= arr.size();
+        int mod = 1e+9 +7;
+        stack<pair<long long, int>> s;
+        vector<int> nsl(n, 0);        
+        for(int i=0; i<n; i++)   {            
+            while(!s.empty() && s.top().first > arr[i])  {
+                s.pop();
+            }
+            if(s.empty())   {
+                nsl[i] = -1;
+            }else   {
+                nsl[i] = s.top().second;
+            }            
+            s.push({arr[i], i});
+        }
+        
+        while(!s.empty())   s.pop();        
+        vector<int> nsr(n, 0);        
+        for(int i=n-1; i>=0; i--)   {            
+            while(!s.empty() && s.top().first >= arr[i])  {
+                s.pop();
+            }
+            if(s.empty())   {
+                nsr[i] = n;
+            }else   {
+                nsr[i] = s.top().second;
+            }            
+            s.push({arr[i], i});
+        }
+        int sum=0;
+        for(int i=0; i<n; i++)  {
+            int lt = i - nsl[i];
+            int rt = nsr[i] - i;
+            cout << lt << " " << rt << "|";
+            sum = (sum + (ll)(arr[i] * 1ll * lt * rt) % mod) % mod;
+        }
+        return sum;
+    }
+};

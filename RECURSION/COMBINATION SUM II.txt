@@ -1,0 +1,25 @@
+class Solution {
+public:
+        void solve(vector<int>& nums, int n, int idx, int t, vector<vector<int>>& res, vector<int>& temp) {
+        if(t == 0)  {            
+            res.push_back(temp);
+            return;
+        }
+        if(idx>=n) return;
+        
+        for(int i=idx; i<n; i++)  {
+            if(i>idx && nums[i] == nums[i-1]) continue;
+            if(nums[i] > t) break;
+            temp.push_back(nums[i]);
+            solve(nums, n, i+1, t-nums[i], res, temp);
+            temp.pop_back();
+        }
+    }
+    vector<vector<int>> combinationSum2(vector<int>& nums, int t) {
+        sort(nums.begin(), nums.end());
+        vector<vector<int>>res;
+        vector<int> temp;
+        solve(nums, nums.size(), 0, t, res, temp);
+        return res;
+    }
+};

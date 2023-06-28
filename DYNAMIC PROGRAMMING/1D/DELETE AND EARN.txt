@@ -1,0 +1,43 @@
+class Solution {
+public:
+    int rec(int i, vector<int>& nums, unordered_map<int, int>& mp) {
+        if(i < 0) return 0;
+        int d=0;
+        if(i>0 && nums[i-1] == nums[i]-1)
+            d = rec(i-2, nums, mp) + mp[nums[i]];
+        else
+            d = rec(i-1, nums, mp) + mp[nums[i]];
+        
+        int nd = rec(i-1, nums, mp);
+        return max(d, nd);
+    }
+    int deleteAndEarn(vector<int>& arr) {
+        unordered_map<int, int> mp;
+        vector<int> nums;
+        for(int i: arr) {
+            mp[i] += i;
+        }
+        for(auto i: mp) {
+            nums.push_back(i.first);
+        }
+        int n = nums.size();
+        sort(nums.begin(), nums.end());
+        // return rec(n-1, nums, mp);
+        
+        vector<int> dp(n+2);
+        dp[0]=dp[1]=0;
+        for(int i=0; i<n; i++) {
+            int d=0;
+            if(i>0 && nums[i-1] == nums[i]-1)
+                d = dp[i] + mp[nums[i]];
+            else
+                d = dp[i+1] + mp[nums[i]];
+
+            int nd = dp[i+1];
+            dp[i+2] = max(d, nd);            
+        }
+        // for(int i: arr) cout << i << " ";
+        // cout << "\n";
+        return dp[n+1];
+    }
+};

@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int takeCharacters(string s, int k) {
+        if(k == 0)  return 0;
+        int n = s.length();
+        int cnt=3;
+        
+        int r_min = -1;
+        int rt[3] = {0};
+        int t = cnt;
+        
+        for(int i=n-1; i>=0; i--)   {
+            int idx = s[i]-'a';
+            rt[idx]++;
+            if(rt[idx] == k)   --t;
+            if(t == 0)  {
+                r_min = i;
+                break;
+            }
+        }
+        if(r_min == -1) return -1;
+        
+        int l=0, r=r_min;
+        int res = n-r_min;
+        int lt[3] = {0};
+        while(l < n)  {
+            int i = s[l]-'a';
+            lt[i]++;
+            ++l;
+            while(r < n)    {
+                int j = s[r]-'a';
+                if(rt[j]-1 + lt[j] < k)     break;   
+                rt[j]--;
+                r++;
+            }
+            res = min(res, n-r + l);
+        }
+        return res;
+    }
+};

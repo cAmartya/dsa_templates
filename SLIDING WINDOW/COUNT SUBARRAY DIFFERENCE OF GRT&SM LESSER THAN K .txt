@@ -1,0 +1,27 @@
+// https://leetcode.com/problems/continuous-subarrays/
+
+typedef long long ll;
+class Solution {
+public:
+    long long continuousSubarrays(vector<int>& nums) {
+        int n = nums.size();
+        int i=0, j=0, p=0, q=0;
+        ll res=0ll;
+        while(j<n) {
+            if(abs(nums[j]-nums[p])>2 || abs(nums[j]-nums[q])>2) {
+                i=j; p=j; q=j;
+                while(i>0 && abs(nums[j]-nums[i])<=2) {
+                    p = (nums[i]<nums[p]) ? i : p;
+                    q = (nums[i]>nums[q]) ? i : q;
+                    i--;
+                }
+                i++;
+            }
+            p = (nums[j]<nums[p]) ? j : p;
+            q = (nums[j]>nums[q]) ? j : q;
+            res += (j-i+1);
+            j++;
+        }
+        return res;
+    }
+};

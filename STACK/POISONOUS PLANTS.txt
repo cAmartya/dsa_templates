@@ -1,0 +1,16 @@
+int poisonousPlants(vector<int> p) {
+    int n = p.size();
+    stack<int> s;
+    int res=0, t=0;
+    for(int i=n-1; i>=0; i--) {
+        while(!s.empty() && p[i]<s.top()) {
+            s.pop();
+        }
+        res = max(res, t-(int)s.size());
+        s.push(p[i]);
+        t = max(t, (int)s.size());
+    }
+    
+    return res;
+
+}

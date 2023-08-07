@@ -1,0 +1,36 @@
+typedef pair<int, int> pii;
+class Solution {
+public:
+    int leastInterval(vector<char>& tasks, int k) {
+        unordered_map<int, int> mp;
+        for(char c: tasks) mp[c-'A'] += 1;
+        
+        queue<pii> q;
+        priority_queue<pii> pq;
+        for(auto i: mp) {
+            pq.push({i.second, i.first});
+        }
+        
+        int res=0;
+        while(!pq.empty() || !q.empty()) {
+            if(!q.empty() && res>q.front().first) {
+                int x = q.front().second;
+                pq.push({mp[x], x});
+                q.pop();
+            } else if(pq.empty()) {
+                res = q.front().first+1;
+                int x = q.front().second;
+                pq.push({mp[x], x});
+                q.pop();
+            }
+            
+            int t = pq.top().second;
+            pq.pop();
+            mp[t] -= 1;
+            if(mp[t]>0) q.push({res+k, t});
+            ++res;
+        }
+        
+        return res;
+    }
+};

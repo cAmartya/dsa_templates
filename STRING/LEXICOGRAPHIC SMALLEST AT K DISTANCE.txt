@@ -1,0 +1,44 @@
+string rearrangeString(string s, int k) {
+    if (k <= 1) {
+        return s; // No rearrangement needed
+    }
+
+    vector<int> freq(26, 0);
+    vector<int> nxt(26, -1);
+    for (char c : s) {
+        freq[c-'a']++;
+    }
+    
+    int n = s.length();
+    string res;
+    
+    for(int i=0; i<n; i++) {
+        for(int j=0; j<26; j++) {
+            if(freq[j]==0 || nxt[j]>i) continue;
+            freq[j]--;
+            
+            bool val=1;
+            int r=n-i-1, h=r/k +1, l=r/k, c=r%k;
+            for(int x=0; x<26; x++) {
+                if(freq[x]<=l) continue;
+                if(freq[x]<=h) --c;
+                if(c<0) {
+                    val=0;
+                    break;
+                }
+            }
+            
+            if(!val) {
+                freq[j]++;
+                continue;
+            }
+            nxt[j]=i+k;
+            res.push_back(j+'a');
+            break;
+        }
+        
+        if(res.length()<=i) return "-1";
+    }
+    
+    return res;
+}

@@ -1,13 +1,17 @@
 class Solution {
 public:
-    int search(vector<int>& nums, int t) {
+    bool search(vector<int>& nums, int t) {
         int n = nums.size();
                 
         int l=0, h=n-1;        
         while(l<=h) {
             int m = l + (h-l)/2;
-            if(nums[m] == t) return m;
-            if(nums[h]>=nums[m]) {
+            if(nums[m] == t) return true;
+            if(nums[m] == nums[h])
+                --h;
+            else if(nums[m] == nums[l])
+                ++l;
+            else if(nums[h]>nums[m]) {
                 if(nums[m]<=t && t<=nums[h])
                     l=m+1;
                 else 
@@ -20,7 +24,7 @@ public:
                     l=m+1;
             }
         }
-        
-        return -1;
+        cout << l << " " << h << "\n";
+        return false;
     }
 };

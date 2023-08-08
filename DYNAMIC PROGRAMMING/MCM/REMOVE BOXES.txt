@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int dp[101][101][101];
+    int solve(int i,int j,int k,vector<int>& boxes){
+        if(i>j) return 0;
+        if(i==j) return (k+1)*(k+1);
+        if(dp[i][j][k]!=-1) return dp[i][j][k];
+        
+        dp[i][j][k] = (k+1)*(k+1) + solve(i+1,j,0,boxes);
+        for(int l=i+1;l<=j;l++) {
+           if(boxes[i]==boxes[l]) {
+               int a=solve(i+1,l-1,0,boxes);
+               int b=solve(l,j,k+1,boxes);
+               dp[i][j][k] = max(dp[i][j][k], a+b);
+           }
+        }
+        return dp[i][j][k];
+    }
+    int removeBoxes(vector<int>& boxes) {
+        int n = boxes.size();
+        memset(dp, -1, sizeof(dp));
+        return solve(0, n-1, 0, boxes);
+    }
+};

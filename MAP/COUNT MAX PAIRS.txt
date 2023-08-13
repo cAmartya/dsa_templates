@@ -1,0 +1,21 @@
+// Given an array, return the maximum number of pairs with equal sum
+
+int maxcountPairs(vector<int> nums) {
+    
+    unordered_map<int, int> f, mp;
+    for(auto i: nums) {
+        f[i]++;
+    }
+    
+    for(auto i: f) {
+        for(auto j: f) {
+            if(i.first==j.first && i.second == 1) continue;
+            mp[i.first+j.first] += min(i.second, j.second);
+        }
+    }
+    int res=0;
+    for(auto i: mp) {
+        res = max(res, i.second/2);
+    }
+    return res;
+}

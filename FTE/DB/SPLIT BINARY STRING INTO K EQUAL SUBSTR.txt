@@ -1,0 +1,62 @@
+bool isSplitPossible(string str, int k) {
+    int ones = 0;
+    for(int i = 0 ; i < str.length() ; i++) {
+        if(str[i] == '1') {
+            ones++;
+        }
+    }
+   if(ones%k != 0) {
+       // We can not divide all the ones into k segments
+       // so its not possible to split
+       return false;
+   }
+   int segOnes = ones/k;
+   // We can ignore leading zeroes but cant ignore zeroes
+   // that comes after the last '1'. So, each k segment have same
+   // amount of trailing zeroes
+   int trailingZero = 0;
+   for(int i = str.length()-1 ; i >= 0 ; i--) {
+       if(str[i] == '1') {
+            break;
+       }
+       trailingZero++;
+    }
+    string prevSegment = "";
+
+    int oneCnt,zeroCnt,segCount ;
+    oneCnt = zeroCnt = segCount = 0;
+    string sub = "";
+    // Now we try to create segments maintaing two previous conditions
+    for(int i = 0 ; i < str.length() ; i++) {
+        if(str[i] == '1') {
+            sub.push_back('1');
+            oneCnt++;
+        }
+        else {
+            // We only count trailing zeroes, if oneCnt is not equal segOnes,
+            // it is leading zero or middle zero and we ignore
+            if(oneCnt == segOnes) {
+                sub.push_back('0');
+                zeroCnt++;
+            }
+        }
+        if(oneCnt == segOnes && trailingZero == zeroCnt) {
+            // Got a segment, match it with prev segment if it is not first
+            if(prevSegment.length() == 0 ) {
+                prevSegment = sub;
+            }
+            else {
+               if(prevSegment != sub) {
+                    return false;
+               }
+            }
+           segCount++;
+           oneCnt = zeroCnt = 0;
+           sub = "";
+        }
+    }
+    if(segCount != k) {
+        return false;
+    }
+    return true;
+}

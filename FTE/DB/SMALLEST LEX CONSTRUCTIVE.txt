@@ -1,0 +1,31 @@
+// construct lex smallest binary string of a & b. x-> total b. k-> total length
+
+string solve(string s, int k, int x) {
+    int n = s.length();
+    int na=k-x;
+    int p=n;
+    for(int i=n-1; i>=0; i--) {
+        if(s[i]=='b' && x--) p=i;
+        if(x==0) break;
+    }
+    if(x>0) return "";
+    
+    string res;
+    for(int i=0; i<p; i++) {
+        if(s[i]=='a') {
+            --na;
+            res.push_back('a');
+            if(na==0) break;
+        }
+    }
+    
+    for(int i=p; i<n; i++) {
+        if(s[i]=='a') {
+            if(na==0) continue;
+            --na;
+        }
+        res.push_back(s[i]);
+    }
+    
+    return res;
+}

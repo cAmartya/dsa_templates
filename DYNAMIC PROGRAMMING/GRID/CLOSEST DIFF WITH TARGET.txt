@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int dp[101][5001];
+    int rec(int i, int s, int t, vector<vector<int>>& mat) {
+        if(i<0) return abs(t-s);
+        if(dp[i][s] != -1) return dp[i][s];
+        int m = mat[0].size();
+        int res=1e+9;
+        for(int j=0; j<m; j++) {
+            res = min(res, rec(i-1, s+mat[i][j], t, mat));
+        }
+        
+        return dp[i][s] = res;
+    }
+    int minimizeTheDifference(vector<vector<int>>& mat, int t) {
+        int n = mat.size();
+        memset(dp, -1, sizeof(dp));
+        return rec(n-1, 0, t, mat);
+    }
+};

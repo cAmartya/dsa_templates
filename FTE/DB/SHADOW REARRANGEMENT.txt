@@ -1,0 +1,34 @@
+int solve(vector<int>& current,vector<int>& desired )
+{
+    int index1=0, index2=0;
+    int totalCount=0;
+
+    while(index1<current.size() && index2<desired.size())
+    {
+        while(index1<current.size())
+        {
+            if(current[index1] != 0)
+                break;
+            index1++;
+        }
+
+        while(index2<desired.size())
+        {
+            if(desired[index2] != 0)
+                break;
+            index2++;
+        }
+
+        if(index1<current.size() && index2<desired.size())
+        {
+            if(current[index1] != desired[index2])
+                return -1;
+            totalCount+=abs(index1 - index2);
+        }   
+
+        index1++;
+        index2++;   
+    }
+
+    return totalCount;
+}

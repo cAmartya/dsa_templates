@@ -1,0 +1,24 @@
+// Given an array A[ ] consisting of N strings, the task is to count the number of pairs of possible strings that on merging forms a Palindromic String or can be rearranged to form a Palindromic String. 
+
+int rec(vector<string> s) {
+    map<vector<int>, int> mp;
+    
+    int res=0;
+    for(string i: s) {
+        vector<int> f(26, 0);
+        for(char c: i) {
+            f[c-'a'] = (f[c-'a'] ^ 1);
+        }
+        
+        res += mp[f];
+        for(int j=0; j<26; j++) {
+            f[j] = f[j] ^ 1;
+            res += mp[f];
+            f[j] = f[j] ^ 1;
+        }
+        
+        mp[f] += 1;
+    }
+    
+    return res;
+}
